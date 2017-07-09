@@ -6,7 +6,7 @@
 
   function activateNavLink(navLinkToShow) {
 
-      navLinkToShow.classList.add(activeHashClass);
+    navLinkToShow.classList.add(activeHashClass);
   }
 
   function activateNavPage(navPageToShow) {
@@ -17,9 +17,10 @@
   function changeView() {
 
     hashVal = location.hash;
-    let navTargets = getNavTargets();
-    let navPageToShow = navTargets.navPage;
-    let navLinkToShow = navTargets.navLink;
+
+    let navTargets = getNavTargets(),
+      navPageToShow = navTargets.navPage,
+      navLinkToShow = navTargets.navLink;
 
     if (navPageToShow) {
 
@@ -43,9 +44,11 @@
     if (!hashVal || !navPage) {
 
       navPage = document.querySelector('.' + navPageSel + '.' + activeHashClass);
-      navLink = document.querySelector('a[href="#' + navPage.id + '"]');
 
-      if (!navPage) {
+      if (navPage) {
+
+        navLink = document.querySelector('a[href="#' + navPage.id + '"]' + '.' + navLinkSel);
+      } else {
 
         navPage = document.querySelector('.' + navPageSel);
         navLink = document.querySelector('.' + navLinkSel);
@@ -62,12 +65,11 @@
     style.id = 'hash-router-styles';
     style.appendChild(document.createTextNode("")); //WebKit Hack
     document.head.appendChild(style);
-
+    
     const styleSheet = style.sheet;
 
     styleSheet.insertRule('.' + navPageSel + ' { display: none }', 0);
     styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
-
   }
 
   function initEventListeners() {
