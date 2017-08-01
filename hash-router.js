@@ -28,6 +28,8 @@
 
       activateNavPage(navPageToShow);
       activateNavLink(navLinkToShow);
+
+      window.scrollTo(0,0);
     }
   }
 
