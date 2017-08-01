@@ -1,15 +1,20 @@
 ; (function () {
 
+  let HashRouter = {};
   let navPageSel, navLinkSel, navLinks, navPages, hashVal;
 
   const activeHashClass = 'active-hash';
 
   function activateNavLink(navLinkToShow) {
 
+    HashRouter.currentNavLink = navLinkToShow;
+
     navLinkToShow.classList.add(activeHashClass);
   }
 
   function activateNavPage(navPageToShow) {
+
+    HashRouter.currentNavPage = navPageToShow;
 
     navPageToShow.classList.add(activeHashClass);
   }
@@ -29,7 +34,7 @@
       activateNavPage(navPageToShow);
       activateNavLink(navLinkToShow);
 
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     }
   }
 
@@ -67,7 +72,7 @@
     style.id = 'hash-router-styles';
     style.appendChild(document.createTextNode("")); //WebKit Hack
     document.head.appendChild(style);
-    
+
     const styleSheet = style.sheet;
 
     styleSheet.insertRule('.' + navPageSel + ' { display: none }', 0);
@@ -107,10 +112,15 @@
     navPages = document.querySelectorAll('.' + navPageSel);
     navLinks = document.querySelectorAll('.' + navLinkSel);
 
+    HashRouter.navLinks = navLinks;
+    HashRouter.navPages = navPages;
+
     initStyles();
     initEventListeners();
   }
 
-  window.initHashRouting = initHashRouting;
+  HashRouter.init = initHashRouting;
+
+  window.HashRouter = HashRouter;
 
 })(window);
