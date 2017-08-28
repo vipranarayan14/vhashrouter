@@ -7,10 +7,13 @@
 
   let config = {
     navPageSelector: 'navPage',
-    navLinkSelector: 'navLink'
-  }
+    navLinkSelector: 'navLink',
+    defaultPage: ''
+  };
 
-  function activateNavLink(navLinkToShow) {
+  function activateNavLink(hashVal) {
+
+    let navLinkToShow = document.querySelector('a[href="' + hashVal + '"]' + '.' + navLinkSel);
 
     if (navLinkToShow) {
 
@@ -27,25 +30,16 @@
     navPageToShow.classList.add(activeHashClass);
   }
 
-  function changeView() {
+  function changeView(hashVal, navPage) {
 
-    hashVal = location.hash;
+    hideAllNavPages();
 
-    let navTargets = getNavTargets(),
-      navPageToShow = navTargets.navPage,
-      navLinkToShow = navTargets.navLink;
+    activateNavPage(navPage);
+    activateNavLink(hashVal);
 
-    if (navPageToShow) {
+    getNavPageContentIfExists(hashVal, navPage);
 
-      hideAllNavPages();
-
-      activateNavPage(navPageToShow);
-      activateNavLink(navLinkToShow);
-
-      insertContentIfExists(hashVal);
-
-      window.scrollTo(0, 0);
-    }
+    window.scrollTo(0, 0);
   }
 
   function configureOptions(options) {
@@ -70,92 +64,85 @@
     HashRouter.navPages = navPages;
   }
 
-  function getNavTargets() {
+  function getNavPageContent(url, setNavPageContent) {
 
-    let navPage = '', navLink = '';
+    const xhttp = new XMLHttpRequest();
 
-    if (hashVal) {
+    xhttp.onreadystatechange = function () {
 
-      navPage = document.querySelector(hashVal);
-      navLink = document.querySelector('a[href="' + hashVal + '"]' + '.' + navLinkSel);
-    }
+      if (this.readyState == 4 && this.status == 200) {
 
-    if (!hashVal || !navPage) {
-
-      navPage = document.querySelector(config.defaultPage + '.' + navPageSel);
-
-      if (navPage) {
-
-        navLink = document.querySelector('a[href="#' + navPage.id + '"]' + '.' + navLinkSel);
-      } else {
-
-        navPage = document.querySelector('.' + navPageSel);
-        navLink = document.querySelector('.' + navLinkSel);
+        setNavPageContent(this.responseText);
       }
     }
 
-    return { navPage, navLink };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+
+    return;
+  }
+
+  function getNavPageContentIfExists(hashVal, navPage) {
+
+    const navPagesToGet = config.navPagesToGet;
+    let navPageToGet = '', navPageContent = '';
+
+    if (navPagesToGet) {
+
+      navPageToGet = config.navPagesToGet.find(item => item.navPage === hashVal);
+
+      if (navPageToGet) {
+
+        navPageContent = getNavPageContent(navPageToGet.urlToGet, (navPageContent) => {
+
+          if (navPageContent) {
+
+            navPage.innerHTML = navPageContent;
+          }
+        });
+      }
+    }
   }
 
   function goToDefaultPage() {
 
-    location.hash = config.defaultPage;
-  }
+    const defaultPage = config.defaultPage;
+    let firstNavPageEle = '';
 
-  function initStyles() {
+    if (defaultPage) {
 
-    const style = document.createElement("style");
+      window.location.hash = defaultPage;
+    } else {
 
-    style.id = 'hash-router-styles';
-    style.appendChild(document.createTextNode("")); //WebKit Hack
-    document.head.appendChild(style);
+      firstNavPageEle = document.querySelector('.' + navPageSel);
+      
+      if (firstNavPageEle && firstNavPageEle.id) {
 
-    const styleSheet = style.sheet;
+        config.defaultPage = firstNavPageEle.id;
 
-    styleSheet.insertRule('.' + navPageSel + ' { display: none }', 0);
-    styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
-  }
+        goToDefaultPage();
+      } else {
 
-  function initEventListeners() {
-
-    window.addEventListener('load', changeView);
-    window.addEventListener('hashchange', changeView);
-  }
-
-  function insertContentIfExists(hashVal) {
-
-    const navPagesToGet = config.navPagesToGet;
-    let navPageToGet = '';
-
-    if (navPagesToGet) {
-
-      navPageToGet = config.navPagesToGet.find(item => item.route === hashVal);
-
-      if (navPageToGet) {
-
-        const xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-
-          if (this.readyState == 4) {
-
-            if (this.status == 200) {
-
-              document.querySelector(hashVal).innerHTML = this.responseText;
-            }
-            else {
-
-              goToDefaultPage();
-            }
-          }
-        }
-
-        xhttp.open("GET", navPageToGet.pageToGet, true);
-        xhttp.send();
-
-        return;
+        return console.error('HashRouter: Default page is not set');
       }
     }
+  }
+
+  function HashHandler() {
+
+    hashVal = window.location.hash;
+
+    if (hashVal) {
+
+      navPage = document.querySelector(hashVal + '.' + navPageSel);
+
+      if (navPage) {
+
+        changeView(hashVal, navPage);
+
+      } else goToDefaultPage();
+
+    } else goToDefaultPage();
   }
 
   function hideAllNavPages() {
@@ -177,11 +164,31 @@
     }
   }
 
+  function initEventListeners() {
+
+    window.addEventListener('load', HashHandler);
+    window.addEventListener('hashchange', HashHandler);
+  }
+
   function initHashRouting(options) {
 
     configureOptions(options);
     initStyles();
     initEventListeners();
+  }
+
+  function initStyles() {
+
+    const style = document.createElement("style");
+
+    style.id = 'hash-router-styles';
+    style.appendChild(document.createTextNode("")); //WebKit Hack
+    document.head.appendChild(style);
+
+    const styleSheet = style.sheet;
+
+    styleSheet.insertRule('.' + navPageSel + ' { display: none }', 0);
+    styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
   }
 
   HashRouter.init = initHashRouting;
