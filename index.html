@@ -6,11 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SPA with Listening to Hashchange</title>
+  <!-- <script src="hash-router.js"></script> -->
+
 </head>
 <style>
   a.active-hash {
     background: yellow;
   }
+
   .navPage {
     height: 100px;
     margin-top: 5px;
@@ -36,13 +39,24 @@
     <a href="#navPage3" class="navLink">page3</a>
     <a href="#navPage3" class="navLink">page3</a>
     <a href="#navPage4" class="navLink">page4</a>
+    <a href="#navPage5" class="navLink">page5</a>
   </nav>
   <div id="navPage1" class="navPage">PAGE 1</div>
-  <div id="navPage2" class="navPage active-hash">PAGE 2</div>
+  <div id="navPage2" class="navPage">PAGE 2</div>
   <div id="navPage3" class="navPage">PAGE 3</div>
+  <div id="navPage5" class="navPage">aaaa</div>
+  <div id="galler" class="navPage"></div>
 
   <script src="hash-router.js"></script>
-  <script>HashRouter.init();</script>
+  <script>
+    HashRouter.init({
+      defaultPage: '#navPage2',
+      navPagesToGet: [
+        { route: "#navPage5", pageToGet: "gallery/index.html" },
+        { route: "#gallery", pageToGet: "gallery/gallery.html" }
+      ]
+    });
+  </script>
 </body>
 
 </html>

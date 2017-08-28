@@ -1,15 +1,23 @@
 ; (function () {
 
+  const activeHashClass = 'active-hash';
+
   let HashRouter = {};
   let navPageSel, navLinkSel, navLinks, navPages, hashVal;
 
-  const activeHashClass = 'active-hash';
+  let config = {
+    navPageSelector: 'navPage',
+    navLinkSelector: 'navLink'
+  }
 
   function activateNavLink(navLinkToShow) {
 
-    HashRouter.currentNavLink = navLinkToShow;
+    if (navLinkToShow) {
 
-    navLinkToShow.classList.add(activeHashClass);
+      HashRouter.currentNavLink = navLinkToShow;
+
+      navLinkToShow.classList.add(activeHashClass);
+    }
   }
 
   function activateNavPage(navPageToShow) {
@@ -34,8 +42,32 @@
       activateNavPage(navPageToShow);
       activateNavLink(navLinkToShow);
 
+      insertContentIfExists(hashVal);
+
       window.scrollTo(0, 0);
     }
+  }
+
+  function configureOptions(options) {
+
+    if (options) {
+
+      config = Object.assign(config, options);
+    }
+
+    configureVariables();
+  }
+
+  function configureVariables() {
+
+    navPageSel = config.navPageSelector;
+    navLinkSel = config.navLinkSelector;
+
+    navPages = document.querySelectorAll('.' + navPageSel);
+    navLinks = document.querySelectorAll('.' + navLinkSel);
+
+    HashRouter.navLinks = navLinks;
+    HashRouter.navPages = navPages;
   }
 
   function getNavTargets() {
@@ -50,7 +82,7 @@
 
     if (!hashVal || !navPage) {
 
-      navPage = document.querySelector('.' + navPageSel + '.' + activeHashClass);
+      navPage = document.querySelector(config.defaultPage + '.' + navPageSel);
 
       if (navPage) {
 
@@ -63,6 +95,11 @@
     }
 
     return { navPage, navLink };
+  }
+
+  function goToDefaultPage() {
+
+    location.hash = config.defaultPage;
   }
 
   function initStyles() {
@@ -85,6 +122,42 @@
     window.addEventListener('hashchange', changeView);
   }
 
+  function insertContentIfExists(hashVal) {
+
+    const navPagesToGet = config.navPagesToGet;
+    let navPageToGet = '';
+
+    if (navPagesToGet) {
+
+      navPageToGet = config.navPagesToGet.find(item => item.route === hashVal);
+
+      if (navPageToGet) {
+
+        const xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+
+          if (this.readyState == 4) {
+
+            if (this.status == 200) {
+
+              document.querySelector(hashVal).innerHTML = this.responseText;
+            }
+            else {
+
+              goToDefaultPage();
+            }
+          }
+        }
+
+        xhttp.open("GET", navPageToGet.pageToGet, true);
+        xhttp.send();
+
+        return;
+      }
+    }
+  }
+
   function hideAllNavPages() {
 
     for (let i = 0, len = navPages.length; i < len; i++) {
@@ -104,17 +177,9 @@
     }
   }
 
-  function initHashRouting(navPageSelector = 'navPage', navLinkSelector = 'navLink') {
+  function initHashRouting(options) {
 
-    navPageSel = navPageSelector;
-    navLinkSel = navLinkSelector;
-
-    navPages = document.querySelectorAll('.' + navPageSel);
-    navLinks = document.querySelectorAll('.' + navLinkSel);
-
-    HashRouter.navLinks = navLinks;
-    HashRouter.navPages = navPages;
-
+    configureOptions(options);
     initStyles();
     initEventListeners();
   }
