@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SPA with Listening to Hashchange</title>
-  <!-- <script src="hash-router.js"></script> -->
 
 </head>
 <style>
@@ -34,12 +33,12 @@
 
 <body>
   <nav>
-    <a href="#navPage1" class="navLink">page1</a>
-    <a href="#navPage2" class="navLink">page2</a>
-    <a href="#navPage3" class="navLink">page3</a>
-    <a href="#navPage3" class="navLink">page3</a>
-    <a href="#navPage4" class="navLink">page4</a>
-    <a href="#navPage5" class="navLink">page5</a>
+    <a href="#/navPage1" class="navLink">page1</a>
+    <a href="#/navPage2" class="navLink">page2</a>
+    <a href="#/navPage3" class="navLink">page3</a>
+    <a href="#/navPage3" class="navLink">page3</a>
+    <a href="#/navPage4" class="navLink">page4</a>
+    <a href="#/navPage5" class="navLink">page5</a>
   </nav>
   <div id="navPage1" class="navPage">PAGE 1</div>
   <div id="navPage2" class="navPage">PAGE 2</div>
@@ -50,10 +49,10 @@
   <script src="hash-router.js"></script>
   <script>
     HashRouter.init({
-      defaultPage: '#navPage2',
+      defaultPage: '#/navPage2',
       navPagesToGet: [
-        { navPage: "#navPage5", urlToGet: "gallery/index.html" },
-        { navPage: "#gallery", urlToGet: "gallery/gallery.html" }
+        { navPage: "#/navPage5", urlToGet: "gallery/index.html" },
+        { navPage: "#/gallery", urlToGet: "gallery/gallery.html" }
       ]
     });
   </script>

@@ -13,7 +13,8 @@
 
   function activateNavLink(hashVal) {
 
-    let navLinkToShow = document.querySelector('a[href="' + hashVal + '"]' + '.' + navLinkSel);
+    let navLinkToShow = findNavLink(hashVal);
+    // document.querySelector('a[href="' + hashVal + '"]' + '.' + navLinkSel);
 
     if (navLinkToShow) {
 
@@ -57,11 +58,20 @@
     navPageSel = config.navPageSelector;
     navLinkSel = config.navLinkSelector;
 
-    navPages = document.querySelectorAll('.' + navPageSel);
-    navLinks = document.querySelectorAll('.' + navLinkSel);
+    navPages = Array.prototype.slice.call(document.querySelectorAll('.' + navPageSel));
+    navLinks = Array.prototype.slice.call(document.querySelectorAll('.' + navLinkSel));
 
     HashRouter.navLinks = navLinks;
     HashRouter.navPages = navPages;
+  }
+  function findNavLink(hashVal) {
+
+    return navLinks.find(item => item.href.split('#/')[1] === hashVal.slice(1));
+  }
+
+  function findNavPage(hashVal) {
+
+    return navPages.find(item => item.id === hashVal.slice(1));
   }
 
   function getNavPageContent(url, setNavPageContent) {
@@ -89,7 +99,7 @@
 
     if (navPagesToGet) {
 
-      navPageToGet = config.navPagesToGet.find(item => item.navPage === hashVal);
+      navPageToGet = config.navPagesToGet.find(item => item.navPage.replace('/', '') === hashVal);
 
       if (navPageToGet) {
 
@@ -114,8 +124,8 @@
       window.location.hash = defaultPage;
     } else {
 
-      firstNavPageEle = document.querySelector('.' + navPageSel);
-      
+      firstNavPageEle = navPages[0];
+
       if (firstNavPageEle && firstNavPageEle.id) {
 
         config.defaultPage = firstNavPageEle.id;
@@ -130,11 +140,11 @@
 
   function HashHandler() {
 
-    hashVal = window.location.hash;
+    hashVal = window.location.hash.replace('/', '');
 
     if (hashVal) {
 
-      navPage = document.querySelector(hashVal + '.' + navPageSel);
+      navPage = findNavPage(hashVal);
 
       if (navPage) {
 
