@@ -1,16 +1,20 @@
 ; (function () {
 
   "use strict";
-  
-  const activeHashClass = 'active-hash';
+
+  const activeHashClass = 'hr-active-hash';
 
   let HashRouter = {};
-  let hashVal, navPageID, navLinkSel, navPageSel, navLinks, navPages, navPage;
+
+  let navLinkSel = '',
+    navPageSel = '',
+    navLinks = '',
+    navPages = '';
 
   let config = {
     defaultPage: '',
-    navPageSelector: 'navPage',
-    navLinkSelector: 'navLink',
+    navPageSelector: 'hr-navPage',
+    navLinkSelector: 'hr-navLink',
     navPagesToGet: []
   };
 
@@ -40,7 +44,7 @@
     activateNavPage(navPage);
     activateNavLink(hashVal);
 
-    getNavPageContentIfExists(navPageID, navPage);
+    setNavPageContentIfExists(navPageID, navPage);
 
     window.scrollTo(0, 0);
   }
@@ -66,7 +70,7 @@
     HashRouter.navLinks = navLinks;
     HashRouter.navPages = navPages;
   }
-  
+
   function findNavLink(hashVal) {
 
     return navLinks.find(item => item.hash === hashVal);
@@ -95,7 +99,7 @@
     return;
   }
 
-  function getNavPageContentIfExists(navPageID, navPage) {
+  function setNavPageContentIfExists(navPageID, navPage) {
 
     const navPagesToGet = config.navPagesToGet;
     let navPageToGet = '', navPageContent = '';
@@ -143,12 +147,12 @@
 
   function HashHandler() {
 
-    hashVal = window.location.hash;
-    navPageID = hashVal.replace('#/', '');
+    let hashVal = window.location.hash;
+    let navPageID = hashVal.replace('#/', '');
 
     if (hashVal) {
 
-      navPage = findNavPage(navPageID);
+      let navPage = findNavPage(navPageID);
 
       if (navPage) {
 
