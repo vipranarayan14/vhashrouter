@@ -7,29 +7,29 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SPA with Listening to Hashchange</title>
 
+  <style>
+    a.active-hash {
+      background: yellow;
+    }
+
+    .navPage {
+      height: 100px;
+      margin-top: 5px;
+    }
+
+    #navPage1 {
+      background-color: #f1b;
+    }
+
+    #navPage2 {
+      background-color: #fab;
+    }
+
+    #navPage3 {
+      background-color: #feb;
+    }
+  </style>
 </head>
-<style>
-  a.active-hash {
-    background: yellow;
-  }
-
-  .navPage {
-    height: 100px;
-    margin-top: 5px;
-  }
-
-  #navPage1 {
-    background-color: #f1b;
-  }
-
-  #navPage2 {
-    background-color: #fab;
-  }
-
-  #navPage3 {
-    background-color: #feb;
-  }
-</style>
 
 <body>
   <nav>
@@ -51,8 +51,8 @@
     HashRouter.init({
       defaultPage: '#/navPage2',
       navPagesToGet: [
-        { navPage: "#/navPage5", urlToGet: "gallery/index.html" },
-        { navPage: "#/gallery", urlToGet: "gallery/gallery.html" }
+        { navPageID: "navPage5", urlToGet: "gallery/index.html" },
+        { navPageID: "gallery", urlToGet: "gallery/gallery.html" }
       ]
     });
   </script>

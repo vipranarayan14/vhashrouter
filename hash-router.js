@@ -1,20 +1,22 @@
 ; (function () {
 
+  "use strict";
+  
   const activeHashClass = 'active-hash';
 
   let HashRouter = {};
-  let navPageSel, navLinkSel, navLinks, navPages, hashVal;
+  let hashVal, navPageID, navLinkSel, navPageSel, navLinks, navPages, navPage;
 
   let config = {
+    defaultPage: '',
     navPageSelector: 'navPage',
     navLinkSelector: 'navLink',
-    defaultPage: ''
+    navPagesToGet: []
   };
 
   function activateNavLink(hashVal) {
 
     let navLinkToShow = findNavLink(hashVal);
-    // document.querySelector('a[href="' + hashVal + '"]' + '.' + navLinkSel);
 
     if (navLinkToShow) {
 
@@ -31,14 +33,14 @@
     navPageToShow.classList.add(activeHashClass);
   }
 
-  function changeView(hashVal, navPage) {
+  function changeView(hashVal, navPageID, navPage) {
 
     hideAllNavPages();
 
     activateNavPage(navPage);
     activateNavLink(hashVal);
 
-    getNavPageContentIfExists(hashVal, navPage);
+    getNavPageContentIfExists(navPageID, navPage);
 
     window.scrollTo(0, 0);
   }
@@ -64,14 +66,15 @@
     HashRouter.navLinks = navLinks;
     HashRouter.navPages = navPages;
   }
+  
   function findNavLink(hashVal) {
 
-    return navLinks.find(item => item.href.split('#/')[1] === hashVal.slice(1));
+    return navLinks.find(item => item.hash === hashVal);
   }
 
-  function findNavPage(hashVal) {
+  function findNavPage(navPageID) {
 
-    return navPages.find(item => item.id === hashVal.slice(1));
+    return navPages.find(item => item.id === navPageID);
   }
 
   function getNavPageContent(url, setNavPageContent) {
@@ -92,14 +95,14 @@
     return;
   }
 
-  function getNavPageContentIfExists(hashVal, navPage) {
+  function getNavPageContentIfExists(navPageID, navPage) {
 
     const navPagesToGet = config.navPagesToGet;
     let navPageToGet = '', navPageContent = '';
 
     if (navPagesToGet) {
 
-      navPageToGet = config.navPagesToGet.find(item => item.navPage.replace('/', '') === hashVal);
+      navPageToGet = config.navPagesToGet.find(item => item.navPageID === navPageID);
 
       if (navPageToGet) {
 
@@ -140,15 +143,16 @@
 
   function HashHandler() {
 
-    hashVal = window.location.hash.replace('/', '');
+    hashVal = window.location.hash;
+    navPageID = hashVal.replace('#/', '');
 
     if (hashVal) {
 
-      navPage = findNavPage(hashVal);
+      navPage = findNavPage(navPageID);
 
       if (navPage) {
 
-        changeView(hashVal, navPage);
+        changeView(hashVal, navPageID, navPage);
 
       } else goToDefaultPage();
 
