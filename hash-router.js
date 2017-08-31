@@ -6,13 +6,10 @@
 
   let HashRouter = {};
 
-  let navLinkSel = '',
-    navPageSel = '',
-    navLinks = '',
-    navPages = '';
+  let navLinkSel = '', navPageSel = '', navLinks = '', navPages = '';
 
   let config = {
-    defaultPage: '',
+    defaultNavPageID: '',
     navPageSelector: 'hr-navPage',
     navLinkSelector: 'hr-navLink',
     navPagesToGet: []
@@ -123,19 +120,19 @@
 
   function goToDefaultPage() {
 
-    const defaultPage = config.defaultPage;
+    const defaultPage = config.defaultNavPageID;
     let firstNavPageEle = '';
 
     if (defaultPage) {
 
-      window.location.hash = defaultPage;
+      window.location.hash = '#/' + defaultPage;
     } else {
 
       firstNavPageEle = navPages[0];
 
       if (firstNavPageEle && firstNavPageEle.id) {
 
-        config.defaultPage = firstNavPageEle.id;
+        config.defaultNavPageID = firstNavPageEle.id;
 
         goToDefaultPage();
       } else {
