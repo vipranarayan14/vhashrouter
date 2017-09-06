@@ -46,7 +46,24 @@
     window.scrollTo(0, 0);
   }
 
-  function configureOptions(options) {
+  function configureDefaultPage() {
+
+    if (!config.defaultNavPageID) {
+
+      let firstNavPageEle = navPages[0];
+
+      if (firstNavPageEle && firstNavPageEle.id) {
+
+        config.defaultNavPageID = firstNavPageEle.id;
+
+      } else {
+
+        return console.error('HashRouter: Default page is not set');
+      }
+    }
+  }
+
+  function configureOptions(options = {}) {
 
     if (options) {
 
@@ -54,6 +71,7 @@
     }
 
     configureVariables();
+    configureDefaultPage();
   }
 
   function configureVariables() {
@@ -120,26 +138,7 @@
 
   function goToDefaultPage() {
 
-    const defaultPage = config.defaultNavPageID;
-    let firstNavPageEle = '';
-
-    if (defaultPage) {
-
-      window.location.hash = '#/' + defaultPage;
-    } else {
-
-      firstNavPageEle = navPages[0];
-
-      if (firstNavPageEle && firstNavPageEle.id) {
-
-        config.defaultNavPageID = firstNavPageEle.id;
-
-        goToDefaultPage();
-      } else {
-
-        return console.error('HashRouter: Default page is not set');
-      }
-    }
+    window.location.hash = '#/' + config.defaultNavPageID;
   }
 
   function HashHandler() {
