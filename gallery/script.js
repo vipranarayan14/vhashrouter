@@ -1,1 +1,4 @@
-alert('Hello');
+function sayHello() {
+
+  alert('Hello');
+}

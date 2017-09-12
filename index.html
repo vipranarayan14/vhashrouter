@@ -47,12 +47,24 @@
   <div id="gallery" class="hr-navPage"></div>
 
   <script src="hash-router.js"></script>
+  <script src="/gallery/script.js"></script>
+  
   <script>
     HashRouter.init({
       defaultNavPageID: "navPage2",
       navPagesToGet: [
-        { navPageID: "navPage5", urlToGet: "gallery/index.html" },
-        { navPageID: "gallery", urlToGet: "gallery/gallery.html" }
+        {
+          navPageID: "navPage5", urlToGet: "gallery/index.html",
+          onSuccess: function () {
+
+            console.log(document.querySelector('got-page-heading'));
+            sayHello();
+          }
+        },
+        {
+          navPageID: "gallery",
+          urlToGet: "gallery/gallery.html",
+        }
       ]
     });
   </script>

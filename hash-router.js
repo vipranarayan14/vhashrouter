@@ -96,46 +96,6 @@
     return navPages.find(item => item.id === navPageID);
   }
 
-  function getNavPageContent(url, setNavPageContent) {
-
-    const xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-
-      if (this.readyState == 4 && this.status == 200) {
-
-        setNavPageContent(this.responseText);
-      }
-    }
-
-    xhttp.open("GET", url, true);
-    xhttp.send();
-
-    return;
-  }
-
-  function setNavPageContentIfExists(navPageID, navPage) {
-
-    const navPagesToGet = config.navPagesToGet;
-    let navPageToGet = '', navPageContent = '';
-
-    if (navPagesToGet) {
-
-      navPageToGet = config.navPagesToGet.find(item => item.navPageID === navPageID);
-
-      if (navPageToGet) {
-
-        navPageContent = getNavPageContent(navPageToGet.urlToGet, (navPageContent) => {
-
-          if (navPageContent) {
-
-            navPage.innerHTML = navPageContent;
-          }
-        });
-      }
-    }
-  }
-
   function goToDefaultPage() {
 
     window.location.hash = '#/' + config.defaultNavPageID;
@@ -203,6 +163,51 @@
 
     styleSheet.insertRule('.' + navPageSel + ' { display: none }', 0);
     styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
+  }
+
+  function sendXMLHttpRequest(url, callBack) {
+
+    const xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+
+      if (this.readyState == 4 && this.status == 200) {
+
+        callBack(this.responseText);
+      }
+    }
+
+    xhttp.open("GET", url, true);
+    xhttp.send();
+
+    return;
+  }
+
+  function setNavPageContentIfExists(navPageID, navPage) {
+
+    const navPagesToGet = config.navPagesToGet;
+    let navPageToGet = '', navPageContent = '';
+
+    if (navPagesToGet) {
+
+      navPageToGet = config.navPagesToGet.find(item => item.navPageID === navPageID);
+
+      if (navPageToGet) {
+
+        let onSuccess = navPageToGet.onSuccess || function () { };
+        let onFailure = navPageToGet.onFailure || function () { };
+
+        navPageContent = sendXMLHttpRequest(navPageToGet.urlToGet, (navPageContent) => {
+
+          if (navPageContent) {
+
+            navPage.innerHTML = navPageContent;
+            onSuccess();
+
+          } else onFailure();
+        });
+      }
+    }
   }
 
   HashRouter.init = initHashRouting;
