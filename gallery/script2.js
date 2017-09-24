@@ -1,5 +1,5 @@
-function sayNo() {
+function sayHi() {
 
-  console.log('No');
+  console.log('I said Hi!');
 }
-sayNo();
+sayHi();
