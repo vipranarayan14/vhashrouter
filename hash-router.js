@@ -5,6 +5,7 @@
   const activeHashClass = 'hr-active-hash';
 
   let HashRouter = {};
+  let loadedRsrcs = { navPages: {}, styles: {}, scripts: {} };
 
   let navLinkSel = '', navPageSel = '', navLinks = '', navPages = '';
 
@@ -165,15 +166,110 @@
     styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
   }
 
-  function sendXMLHttpRequest(url, callBack) {
+  function loadResources(navPageToGet, onSuccess) {
+    addResource('styles', navPageToGet);
+    addResource('scripts', navPageToGet, onSuccess);
+    // const scripts = navPageToGet.rsrcsToInject.scripts;
+    // const styles = navPageToGet.rsrcsToInject.styles;
+
+    // if (styles) {
+
+    //   for (let i = 0, len = styles.length; i < len; i++) {
+
+    //     if (!loadedRsrcs.styles[JSON.stringify(styles[i])]) {
+
+    //       const styleTag = document.createElement('LINK');
+    //       styleTag.rel = 'stylesheet';
+    //       styleTag.href = styles[i];
+
+    //       document.head.appendChild(styleTag);
+    //       loadedRsrcs.styles[JSON.stringify(styles[i])] = true;
+    //     }
+    //   }
+    // }
+
+    // if (scripts) {
+
+    //   for (let i = 0, len = scripts.length; i < len; i++) {
+
+    //     if (loadedRsrcs.scripts[JSON.stringify(scripts[i])]) {
+
+    //       onSuccess();
+
+    //     } else {
+
+    //       const scriptTag = document.createElement('SCRIPT');
+    //       scriptTag.type = 'text\/javascript';
+    //       scriptTag.src = scripts[i];
+    //       scriptTag.async = true;
+
+    //       document.head.appendChild(scriptTag);
+    //       loadedRsrcs.scripts[JSON.stringify(scripts[i])] = true;
+
+    //       if (i === (len - 1)) {
+
+    //         scriptTag.addEventListener('load', onSuccess);
+    //       }
+    //     }
+    //   }
+    // }
+  }
+
+  function addResource(type, navPageToGet, onSuccess) {
+console.log(loadedRsrcs);
+    const rsrcs = navPageToGet.rsrcsToInject[type];
+
+    if (rsrcs) {
+
+      for (let i = 0, len = rsrcs.length; i < len; i++) {
+
+        if (loadedRsrcs[type][JSON.stringify(rsrcs[i])]) {
+
+          if (type === 'scripts') onSuccess();
+
+        } else {
+
+          let tag = '';
+
+          if (type === 'styles') {
+
+            tag = document.createElement('LINK');
+            tag.rel = 'stylesheet';
+            tag.href = rsrcs[i];
+
+          } else if (type === 'scripts') {
+
+            tag = document.createElement('SCRIPT');
+            tag.type = 'text\/javascript';
+            tag.src = rsrcs[i];
+            tag.async = true;
+
+            if (i === (len - 1)) {
+
+              tag.addEventListener('load', onSuccess);
+            }
+          }
+          document.head.appendChild(tag);
+          loadedRsrcs[type][JSON.stringify(rsrcs[i])] = true;
+        }
+      }
+    }
+  }
+
+  function sendXMLHttpRequest(url, success, error) {
 
     const xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
 
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState == 4) {
 
-        callBack(this.responseText);
+        if (this.status === 200) {
+
+          success(this.responseText);
+        }
+
+        else error();
       }
     }
 
@@ -196,16 +292,27 @@
 
         let onSuccess = navPageToGet.onSuccess || function () { };
         let onFailure = navPageToGet.onFailure || function () { };
+        let urlToGet = JSON.stringify(navPageToGet.urlToGet);
 
-        navPageContent = sendXMLHttpRequest(navPageToGet.urlToGet, (navPageContent) => {
+        if (loadedRsrcs.navPages[urlToGet]) {
 
-          if (navPageContent) {
+          navPage.innerHTML = JSON.parse(loadedRsrcs.navPages[urlToGet]);
 
-            navPage.innerHTML = navPageContent;
-            onSuccess();
+          loadResources(navPageToGet, onSuccess);
+        } else {
 
-          } else onFailure();
-        });
+          sendXMLHttpRequest(navPageToGet.urlToGet, (navPageContent) => {
+
+            if (navPageContent) {
+
+              loadedRsrcs.navPages[urlToGet] = JSON.stringify(navPageContent);
+              navPage.innerHTML = navPageContent;
+
+              loadResources(navPageToGet, onSuccess);
+            };
+          }, onFailure);
+
+        }
       }
     }
   }
