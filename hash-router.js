@@ -167,56 +167,13 @@
   }
 
   function loadResources(navPageToGet, onSuccess) {
+
     addResource('styles', navPageToGet);
     addResource('scripts', navPageToGet, onSuccess);
-    // const scripts = navPageToGet.rsrcsToInject.scripts;
-    // const styles = navPageToGet.rsrcsToInject.styles;
-
-    // if (styles) {
-
-    //   for (let i = 0, len = styles.length; i < len; i++) {
-
-    //     if (!loadedRsrcs.styles[JSON.stringify(styles[i])]) {
-
-    //       const styleTag = document.createElement('LINK');
-    //       styleTag.rel = 'stylesheet';
-    //       styleTag.href = styles[i];
-
-    //       document.head.appendChild(styleTag);
-    //       loadedRsrcs.styles[JSON.stringify(styles[i])] = true;
-    //     }
-    //   }
-    // }
-
-    // if (scripts) {
-
-    //   for (let i = 0, len = scripts.length; i < len; i++) {
-
-    //     if (loadedRsrcs.scripts[JSON.stringify(scripts[i])]) {
-
-    //       onSuccess();
-
-    //     } else {
-
-    //       const scriptTag = document.createElement('SCRIPT');
-    //       scriptTag.type = 'text\/javascript';
-    //       scriptTag.src = scripts[i];
-    //       scriptTag.async = true;
-
-    //       document.head.appendChild(scriptTag);
-    //       loadedRsrcs.scripts[JSON.stringify(scripts[i])] = true;
-
-    //       if (i === (len - 1)) {
-
-    //         scriptTag.addEventListener('load', onSuccess);
-    //       }
-    //     }
-    //   }
-    // }
   }
 
   function addResource(type, navPageToGet, onSuccess) {
-console.log(loadedRsrcs);
+
     const rsrcs = navPageToGet.rsrcsToInject[type];
 
     if (rsrcs) {
@@ -249,6 +206,7 @@ console.log(loadedRsrcs);
               tag.addEventListener('load', onSuccess);
             }
           }
+          
           document.head.appendChild(tag);
           loadedRsrcs[type][JSON.stringify(rsrcs[i])] = true;
         }
