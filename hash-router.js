@@ -182,7 +182,7 @@
 
         if (loadedRsrcs[type][JSON.stringify(rsrcs[i])]) {
 
-          if (type === 'scripts') onSuccess();
+          if (type === 'scripts' && i === (len - 1)) onSuccess();
 
         } else {
 
