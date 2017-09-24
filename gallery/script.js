@@ -1,4 +1,4 @@
 function sayHello() {
 
-  alert('Hello');
+  console.log(document.querySelector('.input-text').value = 'Rama Rama');
 }
