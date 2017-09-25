@@ -168,8 +168,11 @@
 
   function loadResources(navPageToGet, onSuccess) {
 
-    addResource('styles', navPageToGet);
-    addResource('scripts', navPageToGet, onSuccess);
+    if (navPageToGet.rsrcsToInject) {
+      
+      addResource('styles', navPageToGet);
+      addResource('scripts', navPageToGet, onSuccess);
+    }
   }
 
   function addResource(type, navPageToGet, onSuccess) {
