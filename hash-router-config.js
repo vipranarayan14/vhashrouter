@@ -18,6 +18,10 @@ HashRouter.init({
     {
       navPageID: "gallery",
       urlToGet: "external-pages/gallery.html",
+    },
+    {
+      navPageID: "License",
+      urlToGet: 'LICENSE'
     }
   ]
 });
