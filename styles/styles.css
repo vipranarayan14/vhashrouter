@@ -1,0 +1,65 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+nav .hr-navLink {
+  text-decoration: none;
+  padding: 10px 10px;
+  color: black;
+  margin: 0;
+  border-radius: 5px 5px 0 0;
+}
+
+.container {
+  margin: 15px;
+}
+
+nav,
+main {
+  margin: 0 auto;
+  margin-top: 10px;
+  max-width: 780px;
+}
+
+main {
+  border-top: 2px solid green;  
+  border-left: 1px dotted green;
+  border-right: 1px dotted green;
+  font-family: sans-serif;
+}
+
+pre {
+  background-color: #CCC;
+  font-size: 14px;
+  padding: 10px;
+}
+a.hr-active-hash {
+  background: #61C069;
+}
+
+.hr-navPage {
+  min-height: 100px;
+  padding: 10px;
+}
+
+#Intro {
+  background-color: #FDEC93;
+}
+
+#Usage {
+  background-color: #FFFEAA;
+}
+
+#Other-features {
+  background-color: #feb;
+}
+
+#External-page {
+  background-color: #FADF94;
+}

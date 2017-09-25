@@ -7,72 +7,85 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SPA with Listening to Hashchange</title>
 
-  <style>
-    a.hr-active-hash {
-      background: yellow;
-    }
-
-    .hr-navPage {
-      height: 100px;
-      margin-top: 5px;
-    }
-
-    #navPage1 {
-      background-color: #f1b;
-    }
-
-    #navPage2 {
-      background-color: #fab;
-    }
-
-    #navPage3 {
-      background-color: #feb;
-    }
-  </style>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet"
 </head>
 
 <body>
-  <nav>
-    <a href="#/navPage1" class="hr-navLink">page1</a>
-    <a href="#/navPage2" class="hr-navLink">page2</a>
-    <a href="#/navPage3" class="hr-navLink">page3</a>
-    <a href="#/navPage3" class="hr-navLink">page3</a>
-    <a href="#/navPage4" class="hr-navLink">page4</a>
-    <a href="#/navPage5" class="hr-navLink">page5</a>
-  </nav>
-  <div id="navPage1" class="hr-navPage">PAGE 1</div>
-  <div id="navPage2" class="hr-navPage">PAGE 2</div>
-  <div id="navPage3" class="hr-navPage">PAGE 3</div>
-  <div id="navPage5" class="hr-navPage">aaaa</div>
-  <div id="gallery" class="hr-navPage"></div>
+  <div class="container">
+    <nav>
+      <a href="#/Intro" class="hr-navLink">Intro</a>
+      <a href="#/Usage" class="hr-navLink">Usage</a>
+      <a href="#/Other-features" class="hr-navLink">Other Features</a>
+      <a href="#/Other-features" class="hr-navLink">Other Features</a>
+      <a href="#/Dead-navLink" class="hr-navLink">Dead</a>
+      <a href="#/External-page" class="hr-navLink">External Page</a>
+    </nav>
+    <main>
+      <div id="Intro" class="hr-navPage md-page">
+# Hash Router
+***
+A small independent library for navigating between pages by changing the hash part of the URL
+<br>
+You can also set the page content from external resources.
+        <hr>
+      </div>
+      <div id="Usage" class="hr-navPage md-page">
+```
+HashRouter.init({
+
+  defaultNavPageID: "Intro",
+
+  navPagesToGet: [
+
+    {
+      navPageID: "External-page",
+
+      urlToGet: "external-pages/index.html",
+
+      rsrcsToInject: {
+
+        scripts: ['external-pages/script.js', 'external-pages/script2.js'],
+
+        styles: ['external-pages/style.css']
+      },
+
+      onSuccess: function () {
+
+        sayHello();
+      },
+
+      onFailure: function () {
+
+        console.log('Unable to get navPage(s)');
+      }
+    },
+
+    {
+      navPageID: "gallery",
+
+      urlToGet: "external-pages/gallery.html",
+    }
+  ]
+});
+```
+      </div>
+      <div id="Other-features" class="hr-navPage md-page">
+- Create navigation using single HTML page
+- Set a default page to be loaded when no hash is in the URL.
+- Dynamically load external pages.
+- External pages and resources are loaded only once.
+      </div>
+      <div id="External-page" class="hr-navPage">An external page will be loaded here.</div>
+      <div id="gallery" class="hr-navPage"></div>
+    </main>
+  </div>
 
   <script src="hash-router.js"></script>
+  <script src="hash-router-config.js"></script>
 
-  <script>
-    HashRouter.init({
-      defaultNavPageID: "navPage2",
-      navPagesToGet: [
-        {
-          navPageID: "navPage5",
-          urlToGet: "gallery/index.html",
-          rsrcsToInject: {
-            scripts: ['gallery/script.js', 'gallery/script2.js'],
-            styles: ['gallery/style.css']
-          },
-          onSuccess: function () {
-            sayHello();
-          },
-          onFailure: function () {
-            console.log('Pgae');
-          }
-        },
-        {
-          navPageID: "gallery",
-          urlToGet: "gallery/gallery.html",
-        }
-      ]
-    });
-  </script>
+  <script src="scripts/marked.min.js"></script>
+  <script src="scripts/script.js"></script>
 </body>
 
 </html>
