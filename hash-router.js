@@ -115,7 +115,7 @@
 
         changeView(hashVal, navPageID, navPage);
 
-      } else goToDefaultPage();
+      } else return;
 
     } else goToDefaultPage();
   }
@@ -206,7 +206,7 @@
               tag.addEventListener('load', onSuccess);
             }
           }
-          
+
           document.head.appendChild(tag);
           loadedRsrcs[type][JSON.stringify(rsrcs[i])] = true;
         }
@@ -237,39 +237,47 @@
     return;
   }
 
-  function setNavPageContentIfExists(navPageID, navPage) {
+  function loadNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess) {
+
+    navPageTarget.innerHTML = JSON.parse(loadedRsrcs.navPages[urlToGet]);
+
+    loadResources(navPageToGet, onSuccess);
+  }
+
+  function getNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess, onFailure) {
+
+    sendXMLHttpRequest(navPageToGet.urlToGet, (navPageContent) => {
+
+      if (navPageContent) {
+
+        loadedRsrcs.navPages[urlToGet] = JSON.stringify(navPageContent);
+        navPageTarget.innerHTML = navPageContent;
+
+        loadResources(navPageToGet, onSuccess);
+      };
+    }, onFailure);
+  }
+
+  function setNavPageContentIfExists(navPageID, navPageTarget) {
 
     const navPagesToGet = config.navPagesToGet;
-    let navPageToGet = '', navPageContent = '';
 
     if (navPagesToGet) {
 
-      navPageToGet = config.navPagesToGet.find(item => item.navPageID === navPageID);
+      let navPageToGet = config.navPagesToGet.find(item => item.navPageID === navPageID);
 
       if (navPageToGet) {
 
+        let urlToGet = JSON.stringify(navPageToGet.urlToGet);
         let onSuccess = navPageToGet.onSuccess || function () { };
         let onFailure = navPageToGet.onFailure || function () { };
-        let urlToGet = JSON.stringify(navPageToGet.urlToGet);
 
         if (loadedRsrcs.navPages[urlToGet]) {
 
-          navPage.innerHTML = JSON.parse(loadedRsrcs.navPages[urlToGet]);
-
-          loadResources(navPageToGet, onSuccess);
+          loadNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess);
         } else {
 
-          sendXMLHttpRequest(navPageToGet.urlToGet, (navPageContent) => {
-
-            if (navPageContent) {
-
-              loadedRsrcs.navPages[urlToGet] = JSON.stringify(navPageContent);
-              navPage.innerHTML = navPageContent;
-
-              loadResources(navPageToGet, onSuccess);
-            };
-          }, onFailure);
-
+          getNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess, onFailure);
         }
       }
     }
