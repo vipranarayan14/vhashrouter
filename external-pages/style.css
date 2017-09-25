@@ -1,0 +1,7 @@
+h1.firstHeading, .mw-body-content h2 {
+  color: green;
+}
+
+.mw-body-content p {
+  color: darkgreen;
+}
