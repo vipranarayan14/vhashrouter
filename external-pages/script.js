@@ -1,7 +1,4 @@
-function sayHello() {
+function runEachTime() {
 
-  console.log('I said hello!');
-  
-  document.querySelector('#Internationalized_URL')
-    .insertAdjacentHTML('afterend', '<br><b><i>This text was set dynamically :)</i><b>');
+  console.log('I must be shown everytime the page is visited (even without reloading)');  
 }

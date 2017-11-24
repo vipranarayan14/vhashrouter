@@ -10,9 +10,11 @@ HashRouter.init({
         styles: ['external-pages/style.css']
       },
       onSuccess: function () {
-        sayHello();
+
+        runEachTime();
       },
       onFailure: function () {
+        
         console.log('Getting external page failed!');
       }
     },
