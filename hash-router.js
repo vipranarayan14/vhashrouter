@@ -10,10 +10,10 @@
   let navLinkSel = '', navPageSel = '', navLinks = '', navPages = '';
 
   let config = {
-    defaultNavPageID: '',
+    defaultRoute: '',
     navPageSelector: 'hr-navPage',
     navLinkSelector: 'hr-navLink',
-    navPagesToGet: []
+    navRoutes: []
   };
 
   function activateNavLink(hashVal) {
@@ -49,13 +49,13 @@
 
   function configureDefaultPage() {
 
-    if (!config.defaultNavPageID) {
+    if (!config.defaultRoute) {
 
       let firstNavPageEle = navPages[0];
 
       if (firstNavPageEle && firstNavPageEle.id) {
 
-        config.defaultNavPageID = firstNavPageEle.id;
+        config.defaultRoute = '#/' + firstNavPageEle.id;
 
       } else {
 
@@ -99,13 +99,15 @@
 
   function goToDefaultPage() {
 
-    window.location.hash = '#/' + config.defaultNavPageID;
+    window.location.hash = config.defaultRoute;
   }
 
   function HashHandler() {
 
     let hashVal = window.location.hash;
-    let navPageID = hashVal.replace('#/', '');
+    let hashQueries = hashVal.split('/');
+    let navRoute = config.navRoutes.find(item => item.route === hashVal);
+    let navPageID = (navRoute) ? navRoute.id : hashQueries[1];
 
     if (hashVal) {
 
@@ -166,18 +168,18 @@
     styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
   }
 
-  function loadResources(navPageToGet, onSuccess) {
+  function loadResources(rsrcs, onSuccess) {
 
-    if (navPageToGet.rsrcsToInject) {
-      
-      addResource('styles', navPageToGet);
-      addResource('scripts', navPageToGet, onSuccess);
+    if (rsrcs) {
+
+      addResource('styles', rsrcs);
+      addResource('scripts', rsrcs, onSuccess);
     }
   }
 
-  function addResource(type, navPageToGet, onSuccess) {
+  function addResource(type, rsrcs, onSuccess) {
 
-    const rsrcs = navPageToGet.rsrcsToInject[type];
+    rsrcs = rsrcs[type];
 
     if (rsrcs) {
 
@@ -185,7 +187,10 @@
 
         if (loadedRsrcs[type][JSON.stringify(rsrcs[i])]) {
 
-          if (type === 'scripts' && i === (len - 1)) onSuccess();
+          if (type === 'scripts' && i === (len - 1)) {
+            
+            onSuccess();
+          }
 
         } else {
 
@@ -221,6 +226,8 @@
 
     const xhttp = new XMLHttpRequest();
 
+    url = encodeURIComponent(url);
+
     xhttp.onreadystatechange = function () {
 
       if (this.readyState == 4) {
@@ -240,44 +247,37 @@
     return;
   }
 
-  function loadNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess) {
-
-    navPageTarget.innerHTML = JSON.parse(loadedRsrcs.navPages[urlToGet]);
-
-    loadResources(navPageToGet, onSuccess);
-  }
-
   function getNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess, onFailure) {
 
-    sendXMLHttpRequest(navPageToGet.urlToGet, (navPageContent) => {
+    sendXMLHttpRequest(urlToGet, (navPageContent) => {
 
       if (navPageContent) {
 
-        loadedRsrcs.navPages[urlToGet] = JSON.stringify(navPageContent);
+        loadedRsrcs.navPages[urlToGet] = true;
         navPageTarget.innerHTML = navPageContent;
 
-        loadResources(navPageToGet, onSuccess);
-      };
+        loadResources(navPageToGet.rsrcs, onSuccess);
+      }
     }, onFailure);
   }
 
   function setNavPageContentIfExists(navPageID, navPageTarget) {
 
-    const navPagesToGet = config.navPagesToGet;
+    const navPagesToGet = config.navRoutes;
 
     if (navPagesToGet) {
 
-      let navPageToGet = config.navPagesToGet.find(item => item.navPageID === navPageID);
+      let navPageToGet = navPagesToGet.find(item => item.id === navPageID);
 
       if (navPageToGet) {
 
-        let urlToGet = JSON.stringify(navPageToGet.urlToGet);
+        let urlToGet = navPageToGet.url;
         let onSuccess = navPageToGet.onSuccess || function () { };
         let onFailure = navPageToGet.onFailure || function () { };
 
         if (loadedRsrcs.navPages[urlToGet]) {
 
-          loadNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess);
+          onSuccess();
         } else {
 
           getNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess, onFailure);
@@ -289,5 +289,6 @@
   HashRouter.init = initHashRouting;
 
   window.HashRouter = HashRouter;
+  window.loadedRsrcs = loadedRsrcs;
 
 })(window);
