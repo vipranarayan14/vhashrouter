@@ -7,26 +7,13 @@
   let HashRouter = {};
   let loadedRsrcs = { navPages: {}, styles: {}, scripts: {} };
 
-  let navLinkSel = '', navPageSel = '', navLinks = '', navPages = '';
+  let navPageSel = '', navPages = '';
 
   let config = {
     defaultRoute: '',
     navPageSelector: 'hr-navPage',
-    navLinkSelector: 'hr-navLink',
     navRoutes: []
   };
-
-  function activateNavLink(hashVal) {
-
-    let navLinkToShow = findNavLink(hashVal);
-
-    if (navLinkToShow) {
-
-      HashRouter.currentNavLink = navLinkToShow;
-
-      navLinkToShow.classList.add(activeHashClass);
-    }
-  }
 
   function activateNavPage(navPageToShow) {
 
@@ -40,7 +27,6 @@
     hideAllNavPages();
 
     activateNavPage(navPage);
-    activateNavLink(hashVal);
 
     setNavPageContentIfExists(navPageID, navPage);
 
@@ -78,18 +64,10 @@
   function configureVariables() {
 
     navPageSel = config.navPageSelector;
-    navLinkSel = config.navLinkSelector;
 
     navPages = Array.prototype.slice.call(document.querySelectorAll('.' + navPageSel));
-    navLinks = Array.prototype.slice.call(document.querySelectorAll('.' + navLinkSel));
 
-    HashRouter.navLinks = navLinks;
     HashRouter.navPages = navPages;
-  }
-
-  function findNavLink(hashVal) {
-
-    return navLinks.find(item => item.hash === hashVal);
   }
 
   function findNavPage(navPageID) {
@@ -129,14 +107,6 @@
       if (navPages[i].classList.contains(activeHashClass)) {
 
         navPages[i].classList.remove(activeHashClass);
-      }
-    }
-
-    for (let i = 0, len = navLinks.length; i < len; i++) {
-
-      if (navLinks[i].classList.contains(activeHashClass)) {
-
-        navLinks[i].classList.remove(activeHashClass);
       }
     }
   }
