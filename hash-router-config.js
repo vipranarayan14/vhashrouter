@@ -1,10 +1,11 @@
 HashRouter.init({
-  defaultNavPageID: "Intro",
-  navPagesToGet: [
+  defaultRoute: "#/Intro",
+  navRoutes: [
     {
-      navPageID: "External-page",
-      urlToGet: "external-pages/index.html",
-      rsrcsToInject: {
+      route: "#/sample-external-page/1",
+      id: "External-page",
+      url: "external-pages/index.html",
+      rsrcs: {
         scripts: ['external-pages/script.js', 'external-pages/script2.js'],
         styles: ['external-pages/style.css']
       },
@@ -12,16 +13,18 @@ HashRouter.init({
         sayHello();
       },
       onFailure: function () {
-        console.log('Pgae');
+        console.log('Getting external page failed!');
       }
     },
     {
-      navPageID: "gallery",
-      urlToGet: "external-pages/gallery.html",
+      route: "#/gallerya",
+      id: "gallery",
+      url: "external-pages/gallery.html",
     },
     {
-      navPageID: "License",
-      urlToGet: 'LICENSE'
+      route: "#/License",
+      id: "License",
+      url: 'LICENSE'
     }
   ]
 });
