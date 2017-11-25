@@ -19,7 +19,7 @@ HashRouter.init({
       }
     },
     {
-      route: "#/gallerya",
+      route: "#/gallery",
       id: "gallery",
       url: "external-pages/gallery.html",
     },
@@ -27,6 +27,10 @@ HashRouter.init({
       route: "#/License",
       id: "License",
       url: 'LICENSE'
+    },
+    {
+      route: "#/Introduction",
+      id: "Intro"
     }
   ]
 });
