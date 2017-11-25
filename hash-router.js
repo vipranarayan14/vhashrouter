@@ -7,7 +7,7 @@
   let HashRouter = {};
   let loadedRsrcs = { navPages: {}, styles: {}, scripts: {} };
 
-  let navPageSel = '', navPages = '';
+  let navPageSel = '', navPages = '', externalNavPages = '';
 
   let config = {
     defaultRoute: '',
@@ -28,12 +28,22 @@
 
     activateNavPage(navPage);
 
-    setNavPageContentIfExists(navPageID, navPage);
+    hasContent(hashVal, navPage, setContent);
 
     window.scrollTo(0, 0);
   }
 
-  function configureDefaultPage() {
+  function hasContent(hashVal, navPage, setContent) {
+
+    if (externalNavPages) {
+
+      let externalPage = externalNavPages.find(item => item.route === hashVal);
+
+      setContent(externalPage, navPage);
+    }
+  }
+
+  function configureDefaultRoute() {
 
     if (!config.defaultRoute) {
 
@@ -58,7 +68,7 @@
     }
 
     configureVariables();
-    configureDefaultPage();
+    configureDefaultRoute();
   }
 
   function configureVariables() {
@@ -66,6 +76,8 @@
     navPageSel = config.navPageSelector;
 
     navPages = Array.prototype.slice.call(document.querySelectorAll('.' + navPageSel));
+
+    externalNavPages = config.navRoutes.filter(navRoute => !!navRoute.url);
 
     HashRouter.navPages = navPages;
   }
@@ -75,7 +87,7 @@
     return navPages.find(item => item.id === navPageID);
   }
 
-  function goToDefaultPage() {
+  function goToDefaultRoute() {
 
     window.location.hash = config.defaultRoute;
   }
@@ -83,21 +95,26 @@
   function HashHandler() {
 
     let hashVal = window.location.hash;
-    let hashQueries = hashVal.split('/');
-    let navRoute = config.navRoutes.find(item => item.route === hashVal);
-    let navPageID = (navRoute) ? navRoute.id : hashQueries[1];
 
     if (hashVal) {
 
-      let navPage = findNavPage(navPageID);
+      let hashQueries = hashVal.split('/');
 
-      if (navPage) {
+      if (hashQueries.length > 1) {
 
-        changeView(hashVal, navPageID, navPage);
+        let navRoute = config.navRoutes.find(item => item.route === hashVal);
+        let navPageID = (navRoute) ? navRoute.id : hashQueries[1];
+        let navPage = findNavPage(navPageID);
+
+        if (navPage) {
+
+          changeView(hashVal, navPageID, navPage);
+
+        } else goToDefaultRoute();
 
       } else return;
 
-    } else goToDefaultPage();
+    } else goToDefaultRoute();
   }
 
   function hideAllNavPages() {
@@ -138,28 +155,30 @@
     styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
   }
 
-  function loadResources(rsrcs, onSuccess) {
+  function loadResources(rsrcUrls, onSuccess) {
 
-    if (rsrcs) {
+    if (rsrcUrls) {
 
-      addResource('styles', rsrcs);
-      addResource('scripts', rsrcs, onSuccess);
+      addResource('styles', rsrcUrls);
+      addResource('scripts', rsrcUrls, onSuccess);
     }
   }
 
-  function addResource(type, rsrcs, onSuccess) {
+  function addResource(type, rsrcUrls, onSuccess) {
 
-    rsrcs = rsrcs[type];
+    rsrcUrls = rsrcUrls[type];
 
-    if (rsrcs) {
+    if (rsrcUrls) {
 
-      for (let i = 0, len = rsrcs.length; i < len; i++) {
+      for (let i = 0, len = rsrcUrls.length; i < len; i++) {
 
-        if (loadedRsrcs[type][JSON.stringify(rsrcs[i])]) {
+        let rsrcUrl = encodeURIComponent(rsrcUrls[i]);
+
+        if (loadedRsrcs[type][rsrcUrl]) {
 
           if (type === 'scripts' && i === (len - 1)) {
-            
-            onSuccess();
+
+            runOnSuccess(onSuccess);
           }
 
         } else {
@@ -170,23 +189,26 @@
 
             tag = document.createElement('LINK');
             tag.rel = 'stylesheet';
-            tag.href = rsrcs[i];
+            tag.href = rsrcUrl;
 
           } else if (type === 'scripts') {
 
             tag = document.createElement('SCRIPT');
             tag.type = 'text\/javascript';
-            tag.src = rsrcs[i];
+            tag.src = rsrcUrl;
             tag.async = true;
 
             if (i === (len - 1)) {
 
-              tag.addEventListener('load', onSuccess);
+              tag.addEventListener('load', () => {
+
+                runOnSuccess(onSuccess);
+              });
             }
           }
 
           document.head.appendChild(tag);
-          loadedRsrcs[type][JSON.stringify(rsrcs[i])] = true;
+          loadedRsrcs[type][rsrcUrl] = true;
         }
       }
     }
@@ -195,8 +217,6 @@
   function sendXMLHttpRequest(url, success, error) {
 
     const xhttp = new XMLHttpRequest();
-
-    url = encodeURIComponent(url);
 
     xhttp.onreadystatechange = function () {
 
@@ -207,7 +227,7 @@
           success(this.responseText);
         }
 
-        else error();
+        else runOnFailure(error);
       }
     }
 
@@ -231,34 +251,36 @@
     }, onFailure);
   }
 
-  function setNavPageContentIfExists(navPageID, navPageTarget) {
+  function setContent(navPageToGet, navPageTarget) {
 
-    const navPagesToGet = config.navRoutes;
+    if (navPageToGet) {
 
-    if (navPagesToGet) {
+      let urlToGet = encodeURIComponent(navPageToGet.url);
+      let onSuccess = navPageToGet.onSuccess || function () { };
+      let onFailure = navPageToGet.onFailure || function () { };
 
-      let navPageToGet = navPagesToGet.find(item => item.id === navPageID);
+      if (loadedRsrcs.navPages[urlToGet]) {
 
-      if (navPageToGet) {
+        runOnSuccess(onSuccess);
+      } else {
 
-        let urlToGet = navPageToGet.url;
-        let onSuccess = navPageToGet.onSuccess || function () { };
-        let onFailure = navPageToGet.onFailure || function () { };
-
-        if (loadedRsrcs.navPages[urlToGet]) {
-
-          onSuccess();
-        } else {
-
-          getNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess, onFailure);
-        }
+        getNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess, onFailure);
       }
     }
+  }
+
+  function runOnSuccess(onSuccess) {
+
+    onSuccess(HashRouter);
+  }
+
+  function runOnFailure(onFailure) {
+
+    onFailure(HashRouter);
   }
 
   HashRouter.init = initHashRouting;
 
   window.HashRouter = HashRouter;
-  window.loadedRsrcs = loadedRsrcs;
 
 })(window);
