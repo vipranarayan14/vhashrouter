@@ -1,13 +1,17 @@
-; (function () {
+(function () {
 
-  "use strict";
+  'use strict';
 
   const activeHashClass = 'hr-active-hash';
 
   let HashRouter = {};
   let loadedRsrcs = { navPages: {}, styles: {}, scripts: {} };
 
-  let navPageSel = '', navPages = '', externalNavPages = '';
+  let navPageSel = '',
+    navPages = [],
+    externalNavPages = {},
+    navRoutesWithVars = [],
+    navRouteVars = [];
 
   let config = {
     defaultRoute: '',
@@ -22,24 +26,30 @@
     navPageToShow.classList.add(activeHashClass);
   }
 
-  function changeView(hashVal, navPageID, navPage) {
+  function changeView(hashVal, navPageID, navPage, navRoute) {
 
     hideAllNavPages();
 
     activateNavPage(navPage);
 
-    hasContent(hashVal, navPage, setContent);
+    if (navRoute) {
+
+      hasContent(hashVal, navPage, navRoute, setContent);
+    }
 
     window.scrollTo(0, 0);
   }
 
-  function hasContent(hashVal, navPage, setContent) {
+  function hasContent(hashVal, navPage, navRoute, setContent) {
+
+    let onSuccess = navRoute.onSuccess || function () { };
+    let onFailure = navRoute.onFailure || function () { };
 
     if (externalNavPages) {
 
-      let externalPage = externalNavPages.find(item => item.route === hashVal);
+      let externalPage = externalNavPages.find(item => item.route === hashVal); //TODO hashroute match
 
-      setContent(externalPage, navPage);
+      setContent(externalPage, navPage, onSuccess, onFailure);
     }
   }
 
@@ -55,7 +65,7 @@
 
       } else {
 
-        return console.error('HashRouter: Default page is not set');
+        throw new Error('HashRouter: Default page is not set');
       }
     }
   }
@@ -68,7 +78,32 @@
     }
 
     configureVariables();
+    configureRoutes();
     configureDefaultRoute();
+  }
+
+  function configureRoutes() {
+
+    navRoutesWithVars = config.navRoutes.filter(navRoute => {
+
+      if (navRoute.route.indexOf('{') > -1) {
+
+        navRoute.route = makeRegExp(navRoute.route);
+
+        return navRoute;
+      }
+    });
+  }
+
+  function makeRegExp(str) {
+
+    str = str.replace(/[-/\\^$*+?.()|[\]]/g, '\\$&')
+      .replace(/\$/g, '$$$$')
+      .replace(/{(.+?)}/g, '(.[^/]*)');
+
+    str = new RegExp(str);
+
+    return str;
   }
 
   function configureVariables() {
@@ -102,19 +137,49 @@
 
       if (hashQueries.length > 1) {
 
-        let navRoute = config.navRoutes.find(item => item.route === hashVal);
+        let navRoute = findNavRoute(hashVal);
         let navPageID = (navRoute) ? navRoute.id : hashQueries[1];
         let navPage = findNavPage(navPageID);
 
         if (navPage) {
 
-          changeView(hashVal, navPageID, navPage);
+          changeView(hashVal, navPageID, navPage, navRoute);
 
         } else goToDefaultRoute();
 
       } else return;
 
     } else goToDefaultRoute();
+  }
+
+  function findNavRoute(hashVal) {
+
+    let navRoute = config.navRoutes.find(item => item.route === hashVal);
+
+    if (navRoute) {
+
+      return navRoute;
+    } else {
+
+      navRoute = navRoutesWithVars.find(item => {
+
+        let routeMatch = hashVal.match(item.route);
+
+        if (routeMatch) {
+
+          navRouteVars = [];
+
+          routeMatch.forEach(element => {
+
+            navRouteVars.push(element);
+          });
+
+          return item;
+        }
+      });
+
+      return navRoute;
+    }
   }
 
   function hideAllNavPages() {
@@ -143,10 +208,10 @@
 
   function initStyles() {
 
-    const style = document.createElement("style");
+    const style = document.createElement('style');
 
     style.id = 'hash-router-styles';
-    style.appendChild(document.createTextNode("")); //WebKit Hack
+    style.appendChild(document.createTextNode('')); //WebKit Hack
     document.head.appendChild(style);
 
     const styleSheet = style.sheet;
@@ -194,7 +259,7 @@
           } else if (type === 'scripts') {
 
             tag = document.createElement('SCRIPT');
-            tag.type = 'text\/javascript';
+            tag.type = 'text/javascript';
             tag.src = rsrcUrl;
             tag.async = true;
 
@@ -229,9 +294,9 @@
 
         else runOnFailure(error);
       }
-    }
+    };
 
-    xhttp.open("GET", url, true);
+    xhttp.open('GET', url, true);
     xhttp.send();
 
     return;
@@ -251,27 +316,25 @@
     }, onFailure);
   }
 
-  function setContent(navPageToGet, navPageTarget) {
+  function setContent(externalPage, navPageTarget, onSuccess, onFailure) {
 
-    if (navPageToGet) {
+    if (externalPage) {
 
-      let urlToGet = encodeURIComponent(navPageToGet.url);
-      let onSuccess = navPageToGet.onSuccess || function () { };
-      let onFailure = navPageToGet.onFailure || function () { };
+      let urlToGet = encodeURIComponent(externalPage.url);
 
       if (loadedRsrcs.navPages[urlToGet]) {
 
         runOnSuccess(onSuccess);
       } else {
 
-        getNavPage(urlToGet, navPageToGet, navPageTarget, onSuccess, onFailure);
+        getNavPage(urlToGet, externalPage, navPageTarget, onSuccess, onFailure);
       }
     }
   }
 
   function runOnSuccess(onSuccess) {
 
-    onSuccess(HashRouter);
+    onSuccess(navRouteVars, HashRouter);
   }
 
   function runOnFailure(onFailure) {
