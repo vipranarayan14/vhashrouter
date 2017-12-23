@@ -3,6 +3,10 @@ HashRouter.config({
   defaultRoute: '#/Intro',
   routes: [
     {
+      hash: '#/Intro',
+      targetId: 'Intro'
+    },
+    {
       hash: '#/sample-external-page/{}/',
       targetId: 'External-page',
       sourceUrl: 'external-pages/index.html',

@@ -1,3 +1,4 @@
+const loadedRsrcs = [];
 
 function loadResources(rsrcUrls, onSuccess) {
 
@@ -16,7 +17,7 @@ function addResource(type, rsrcUrls, onSuccess) {
 
     for (let i = 0, len = rsrcUrls.length; i < len; i++) {
 
-      let rsrcUrl = encodeURIComponent(rsrcUrls[i]);
+      const rsrcUrl = encodeURIComponent(rsrcUrls[i]);
 
       if (loadedRsrcs[type][rsrcUrl]) {
 
@@ -99,7 +100,7 @@ function setContent(externalPage, navPageTarget, onSuccess, onFailure) {
 
   if (externalPage) {
 
-    let urlToGet = encodeURIComponent(externalPage.url);
+    const urlToGet = encodeURIComponent(externalPage.url);
 
     if (loadedRsrcs.navPages[urlToGet]) {
 

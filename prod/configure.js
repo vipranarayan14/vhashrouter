@@ -1,4 +1,5 @@
 import makeRegExp from './make-regex';
+import constants from './constants';
 
 const defaultConfig = {
   defaultRoute: '',
@@ -36,7 +37,7 @@ function configureOptions(userConfig) {
   configureRoutes();
 }
 
-export default { 
+export default {
   configureOptions,
-  options
+  options,
 };

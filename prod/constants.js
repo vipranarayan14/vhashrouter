@@ -1,7 +1,7 @@
 const activeHashClass = 'hr-active-hash';
-const navPageSel = 'hr-navPage';
+const navPageSelector = 'hr-navPage';
 
 export default {
   activeHashClass,
-  navPageSel
+  navPageSelector
 };

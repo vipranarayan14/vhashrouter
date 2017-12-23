@@ -1,13 +1,33 @@
-function changeView(hashVal, navPageID, navPage, navRoute) {
+import constants from './constants';
 
-  hideAllNavPages();
+const pages = document.getElementsByClassName(constants.navPageSelector);
 
-  activateNavPage(navPage);
+function hideOtherPages() {
 
-  if (navRoute) {
+  for (let i = 0, len = pages.length; i < len; i++) {
 
-    hasContent(hashVal, navPage, navRoute, setContent);
+    pages[i].classList.remove(constants.activeHashClass);
   }
+}
+
+function showPage(targetId) {
+
+  const pageToShow = document.getElementById(targetId);
+
+  // HashRouter.currentNavPage = pageToShow;
+
+  pageToShow.classList.add(constants.activeHashClass);
+}
+
+function changeView(route) {
+  
+  hideOtherPages();
+
+  showPage(route.targetId);
+
+  // hasContent(route, setContent);
 
   window.scrollTo(0, 0);
 }
+
+export default changeView;

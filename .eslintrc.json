@@ -3,6 +3,9 @@
     "browser": true,
     "es6": true
   },
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "extends": "eslint:recommended",
   "rules": {
     "indent": [
@@ -20,6 +23,8 @@
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "prefer-const": 2,
+    "no-console": 2
   }
 }

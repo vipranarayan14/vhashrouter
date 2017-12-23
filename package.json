@@ -2,16 +2,13 @@
   "name": "hash-router",
   "version": "1.0.0",
   "description": "A simple vanilla javaScript router based on change in hash part of the URL (with optional AJAX) for Single Page Applications.",
-  "main": "hash-router.js",
+  "main": "dist/hash-router.js",
   "scripts": {
-    "test": "eslint ./dist/*.js",
+    "test": "eslint ./prod/*.js",
     "webpack": "webpack -p",
     "server": "webpack-dev-server"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vipranarayan14/hash-router.git"
-  },
+  "repository": "github:vipranarayan14/hash-router",
   "author": "Prasanna Venkatesh T S",
   "license": "ISC",
   "bugs": {

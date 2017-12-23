@@ -1,29 +1,33 @@
 import constants from './constants';
+import hashHandler from './hash-handler';
 
 function initStyles() {
 
   const style = document.createElement('style');
 
-  style.id = 'hash-router-styles';
-  style.appendChild(document.createTextNode('')); //WebKit Hack
+  style.innerHTML = `
+    .${constants.navPageSelector} {
+      display: none;
+    }
+
+    .${constants.navPageSelector}.${constants.activeHashClass} {
+      display: block;
+    }
+  `;
+
   document.head.appendChild(style);
-
-  const styleSheet = style.sheet;
-
-  styleSheet.insertRule('.' + constants.navPageSel + ' { display: none }', 0);
-  styleSheet.insertRule('.' + constants.navPageSel + '.' + constants.activeHashClass + '{ display: block }', 0);
 }
 
 function initEventListeners() {
 
-  window.addEventListener('load', HashHandler);
-  window.addEventListener('hashchange', HashHandler);
+  window.addEventListener('load', hashHandler);
+  window.addEventListener('hashchange', hashHandler);
 }
 
 function initHashRouting() {
 
   initStyles();
-  // initEventListeners();
+  initEventListeners();
 }
 
 export default initHashRouting;

@@ -1,10 +1,10 @@
 import initHashRouting from './init';
 import configuration from './configure';
 
-let HashRouter = {};
+const HashRouter = {};
 
 HashRouter.init = initHashRouting;
 HashRouter.config = configuration.configureOptions;
-HashRouter.options = configuration.options;
+HashRouter._options = configuration.options;
 
 window.HashRouter = HashRouter;

@@ -1,4 +1,12 @@
+import configuration from './configure';
+
 function goToDefaultRoute() {
 
-  window.location.hash = config.defaultRoute;
+  const defaultRoute = configuration.options.defaultRoute;
+  
+  if (!defaultRoute) return;
+
+  window.location.hash = defaultRoute;
 }
+
+export default goToDefaultRoute;

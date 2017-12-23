@@ -1,24 +1,22 @@
-function HashHandler() {
+import goToDefaultRoute from './default-route';
+import findRoute from './find-route';
+import changeView from './change-view';
 
-  let hashVal = window.location.hash;
+function hashHandler(event) {
 
-  if (hashVal) {
+  const hashVal = window.location.hash;
 
-    let hashQueries = hashVal.split('/');
+  if (!hashVal) goToDefaultRoute();
 
-    if (hashQueries.length > 1) {
+  if (hashVal.indexOf('/') < 0) return;
 
-      let navRoute = findNavRoute(hashVal);
-      let navPageID = (navRoute) ? navRoute.id : hashQueries[1];
-      let navPage = findNavPage(navPageID);
+  const route = findRoute(hashVal);
 
-      if (navPage) {
+  if (!route) return;
 
-        changeView(hashVal, navPageID, navPage, navRoute);
+  event.preventDefault();
 
-      } else goToDefaultRoute();
-
-    } else return;
-
-  } else goToDefaultRoute();
+  changeView(route);
 }
+
+export default hashHandler;

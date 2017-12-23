@@ -4,8 +4,8 @@ const webpack = require('webpack');
 module.exports = {
   entry: './prod/main.js',
   output: {
-    path: __dirname,
-    filename: './dist/hash-router.js'
+    path: path.join(__dirname, 'dist'),
+    filename: 'hash-router.js'
   },
   module: {
     loaders: [
