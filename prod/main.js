@@ -1,3 +1,3 @@
-import HashRouter from '/variables';
+import HashRouter from './variables';
 
 window.HashRouter = HashRouter;
