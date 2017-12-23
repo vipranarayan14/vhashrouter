@@ -1,39 +1,41 @@
-HashRouter.init({
+HashRouter.init();
+HashRouter.config({
   defaultRoute: '#/Intro',
-  navRoutes: [
+  routes: [
     {
-      route: '#/sample-external-page/{num}',
-      id: 'External-page',
-      url: 'external-pages/index.html',
-      rsrcs: {
-        scripts: ['external-pages/script.js', 'external-pages/script2.js'],
-        styles: ['external-pages/style.css']
-      },
-      onSuccess: function (varss) {
+      hash: '#/sample-external-page/{}/',
+      targetId: 'External-page',
+      sourceUrl: 'external-pages/index.html',
+      resources: [
+        'external-pages/script.js',
+        'external-pages/script2.js',
+        'external-pages/style.css'
+      ],
+      onNavigate: function (varss) {
 
         console.log(varss);
         runEachTime();
       },
-      onFailure: function () {
+      onLoadResources: function () {
 
-        console.log('Getting external page failed!');
+        console.log('Loaded Resources!');
       }
     },
     {
-      route: '#/gallery',
-      id: 'gallery',
-      url: 'external-pages/gallery.html',
+      hash: '#/gallery',
+      targetId: 'gallery',
+      sourceUrl: 'external-pages/gallery.html',
     },
     {
-      route: '#/License',
-      id: 'License',
-      url: 'LICENSE'
+      hash: '#/License',
+      targetId: 'License',
+      sourceUrl: 'LICENSE'
     },
     {
-      route: '#/Introduction/{w}/{e}/',
-      id: 'Intro',
-      onSuccess: function (varss) {
-        
+      hash: '#/Introduction/{}/{}/',
+      targetId: 'Intro',
+      onNavigate: function (varss) {
+
         console.log(varss);
       }
     }
