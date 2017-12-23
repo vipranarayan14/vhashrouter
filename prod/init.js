@@ -1,26 +1,29 @@
-  function initStyles() {
+import constants from './constants';
 
-    const style = document.createElement('style');
+function initStyles() {
 
-    style.id = 'hash-router-styles';
-    style.appendChild(document.createTextNode('')); //WebKit Hack
-    document.head.appendChild(style);
+  const style = document.createElement('style');
 
-    const styleSheet = style.sheet;
+  style.id = 'hash-router-styles';
+  style.appendChild(document.createTextNode('')); //WebKit Hack
+  document.head.appendChild(style);
 
-    styleSheet.insertRule('.' + navPageSel + ' { display: none }', 0);
-    styleSheet.insertRule('.' + navPageSel + '.' + activeHashClass + '{ display: block }', 0);
-  }
+  const styleSheet = style.sheet;
 
-  function initEventListeners() {
+  styleSheet.insertRule('.' + constants.navPageSel + ' { display: none }', 0);
+  styleSheet.insertRule('.' + constants.navPageSel + '.' + constants.activeHashClass + '{ display: block }', 0);
+}
 
-    window.addEventListener('load', HashHandler);
-    window.addEventListener('hashchange', HashHandler);
-  }
+function initEventListeners() {
 
-  function initHashRouting(options) {
+  window.addEventListener('load', HashHandler);
+  window.addEventListener('hashchange', HashHandler);
+}
 
-    configureOptions(options);
-    initStyles();
-    initEventListeners();
-  }
+function initHashRouting() {
+
+  initStyles();
+  // initEventListeners();
+}
+
+export default initHashRouting;
