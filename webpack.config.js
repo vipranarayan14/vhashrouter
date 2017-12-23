@@ -20,5 +20,9 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "test"),
+    port: 9000
   }
 };
