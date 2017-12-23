@@ -1,52 +1,42 @@
-function configureDefaultRoute() {
+import makeRegExp from './make-regex';
 
-  if (!config.defaultRoute) {
-
-    let firstNavPageEle = navPages[0];
-
-    if (firstNavPageEle && firstNavPageEle.id) {
-
-      config.defaultRoute = '#/' + firstNavPageEle.id;
-
-    } else {
-
-      throw new Error('HashRouter: Default page is not set');
+const defaultConfig = {
+  defaultRoute: '',
+  routes: [
+    {
+      hash: '',
+      targetId: '',
+      sourceUrl: '',
+      resources: [],
+      onNavigate: () => { },
+      onLoadResources: () => { }
     }
-  }
-}
+  ]
+};
+
+let options = {};
 
 function configureRoutes() {
 
-  navRoutesWithVars = config.navRoutes.filter(navRoute => {
+  options.routes.forEach(route => {
 
-    if (navRoute.route.indexOf('{') > -1) {
-
-      navRoute.route = makeRegExp(navRoute.route);
-
-      return navRoute;
-    }
+    route.hash = makeRegExp(route.hash);
   });
 }
 
-function configureVariables() {
+function configureOptions(userConfig) {
 
-  navPageSel = config.navPageSelector;
+  options = Object.assign(options, defaultConfig, userConfig);
 
-  navPages = Array.prototype.slice.call(document.querySelectorAll('.' + navPageSel));
+  options.routes = options.routes.map(route => {
 
-  externalNavPages = config.navRoutes.filter(navRoute => !!navRoute.url);
+    return Object.assign({}, defaultConfig.routes[0], route);
+  });
 
-  HashRouter.navPages = navPages;
-}
-
-function configureOptions(options = {}) {
-
-  if (options) {
-
-    config = Object.assign(config, options);
-  }
-
-  configureVariables();
   configureRoutes();
-  configureDefaultRoute();
 }
+
+export default { 
+  configureOptions,
+  options
+};
