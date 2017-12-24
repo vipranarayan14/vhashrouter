@@ -1,8 +1,7 @@
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
-  entry: './prod/main.js',
+  entry: './src',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'hash-router.js'
@@ -20,9 +19,5 @@ module.exports = {
         }
       }
     ]
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "test"),
-    port: 9000
   }
 };
