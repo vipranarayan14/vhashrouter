@@ -5,7 +5,7 @@
   "main": "dist/hash-router.js",
   "scripts": {
     "build": "webpack -p",
-    "test": "eslint --ignorePath .gitignore",
+    "test": "eslint --ignore-path .gitignore ./src/*.js",
     "start": "webpack-dev-server --config webpack.config.server"
   },
   "repository": "github:vipranarayan14/hash-router",
