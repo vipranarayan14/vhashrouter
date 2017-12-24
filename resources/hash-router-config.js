@@ -3,42 +3,50 @@ HashRouter.init({
   routes: [
     {
       hash: '#/Intro',
-      targetId: 'Intro'
+      viewId: 'Intro'
     },
     {
-      hash: '#/sample-external-page/{}/',
-      targetId: 'External-page',
-      sourceUrl: 'external-pages/index.html',
+      hash: '#/Usage',
+      viewId: 'Usage'
+    },
+    {
+      hash: '#/Other-features',
+      viewId: 'Other-features'
+    },
+    {
+      hash: '#/sample-external-page/{}',
+      viewId: 'External-page',
+      contentUrl: 'resources/external-pages/index.html',
       resources: [
-        'external-pages/script.js',
-        'external-pages/script2.js',
-        'external-pages/style.css'
+        'resources/external-pages/script.js',
+        'resources/external-pages/script2.js',
+        'resources/external-pages/style.css'
       ],
       onNavigate (args) {
 
         console.log(args);
-        runEachTime();
+        console.log('Page Navigated!');
 
       },
       onLoadResources () {
 
         console.log('Loaded Resources!');
-
+        runEachTime();
       }
     },
     {
       hash: '#/gallery',
-      targetId: 'gallery',
-      sourceUrl: 'external-pages/gallery.html',
+      viewId: 'gallery',
+      contentUrl: 'external-pages/gallery.html',
     },
     {
       hash: '#/License',
-      targetId: 'License',
-      sourceUrl: 'LICENSE'
+      viewId: 'License',
+      contentUrl: 'LICENSE'
     },
     {
       hash: '#/Introduction/{}/{}/',
-      targetId: 'Intro',
+      viewId: 'Intro',
       onNavigate (args) {
 
         console.log(args);
