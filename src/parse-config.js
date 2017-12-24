@@ -1,12 +1,12 @@
 import { makeRegExp } from './make-regex';
 
 const defaultRouteConfig = {
+  contentUrl: '',
   hash: '',
   onLoadResources: () => { },
   onNavigate: () => { },
   resources: [],
-  sourceUrl: '',
-  targetId: ''
+  viewId: ''
 };
 
 const extendRouteConfig = routeConfig => Object.assign(
