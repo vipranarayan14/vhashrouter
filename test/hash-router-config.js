@@ -1,5 +1,4 @@
-HashRouter.init();
-HashRouter.config({
+HashRouter.init({
   defaultRoute: '#/Intro',
   routes: [
     {
