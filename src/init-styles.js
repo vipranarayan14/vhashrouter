@@ -1,6 +1,7 @@
 import {activeHashClass, navPageSelector} from './literals';
 
 export const initStyles = () => {
+
   const style = document.createElement('style');
 
   style.innerHTML = `
@@ -14,4 +15,5 @@ export const initStyles = () => {
   `;
 
   document.head.appendChild(style);
+
 };

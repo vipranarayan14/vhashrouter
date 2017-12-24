@@ -14,14 +14,16 @@ HashRouter.init({
         'external-pages/script2.js',
         'external-pages/style.css'
       ],
-      onNavigate: function (varss) {
+      onNavigate (args) {
 
-        console.log(varss);
+        console.log(args);
         runEachTime();
+
       },
-      onLoadResources: function () {
+      onLoadResources () {
 
         console.log('Loaded Resources!');
+
       }
     },
     {
@@ -37,9 +39,10 @@ HashRouter.init({
     {
       hash: '#/Introduction/{}/{}/',
       targetId: 'Intro',
-      onNavigate: function (varss) {
+      onNavigate (args) {
 
-        console.log(varss);
+        console.log(args);
+
       }
     }
   ]

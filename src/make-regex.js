@@ -5,4 +5,5 @@ export const makeRegExp = string => {
     .replace(/{(.*?)}/g, '(.[^/]*)');
 
   return new RegExp(expression);
-}
+
+};
