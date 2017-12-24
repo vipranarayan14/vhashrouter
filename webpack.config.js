@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   entry: './src',
   output: {
-    path: path.join(__dirname, 'lib'),
+    path: path.join(__dirname, 'dist'),
     filename: 'hash-router.js'
   },
   module: {
