@@ -8,23 +8,120 @@
   },
   "extends": "eslint:recommended",
   "rules": {
+    "arrow-body-style": [
+      2,
+      "as-needed"
+    ],
+    "arrow-parens": [
+      2,
+      "as-needed"
+    ],
+    "arrow-spacing": 2,
+    "camelcase": 2,
+    "complexity": [
+      2,
+      3
+    ],
+    "consistent-return": 2,
+    "curly": 2,
+    "dot-notation": 2,
+    "eol-last": 2,
+    "eqeqeq": [
+      2,
+      "smart"
+    ],
     "indent": [
-      "error",
-      2
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
+    "keyword-spacing": 2,
+    "new-cap": 2,
+    "new-parens": 2,
+    "newline-after-var": 2,
+    "newline-before-return": 2,
+    "no-alert": 2,
+    "no-caller": 2,
+    "no-console": 2,
+    "no-else-return": 2,
+    "no-invalid-this": 2,
+    "no-magic-numbers": [
+      2,
+      {
+        "detectObjects": false,
+        "ignore": [
+          -1,
+          0,
+          1,
+          2,
+          3
+        ],
+        "ignoreArrayIndexes": true
+      }
     ],
-    "quotes": [
-      "error",
-      "single"
+    "no-multi-spaces": 2,
+    "no-multiple-empty-lines": [
+      2,
+      {
+        "max": 1
+      }
     ],
-    "semi": [
-      "error",
-      "always"
+    "no-plusplus": 2,
+    "no-sequences": 2,
+    "no-shadow": 2,
+    "no-trailing-spaces": 2,
+    "no-undef": 2,
+    "no-underscore-dangle": 2,
+    "no-unused-expressions": 2,
+    "no-unused-vars": 2,
+    "no-var": 2,
+    "object-shorthand": 2,
+    "one-var": [
+      2,
+      {
+        "const": "never",
+        "let": "always"
+      }
+    ],
+    "padded-blocks": [
+      2,
+      {
+        "blocks": "always",
+        "classes": "always",
+        "switches": "never"
+      }
     ],
     "prefer-const": 2,
-    "no-console": 2
+    "prefer-rest-params": 2,
+    "prefer-spread": 2,
+    "prefer-template": 2,
+    "quotes": [
+      2,
+      "single"
+    ],
+    "require-await": 2,
+    "semi": 2,
+    "sort-imports": [
+      2,
+      {
+        "memberSyntaxSortOrder": [
+          "multiple",
+          "single",
+          "all",
+          "none"
+        ]
+      }
+    ],
+    "sort-keys": [
+      2,
+      "asc",
+      {
+        "natural": true
+      }
+    ],
+    "vars-on-top": 2,
+    "yoda": 2
   }
 }
