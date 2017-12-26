@@ -1,14 +1,12 @@
-import { sendXMLHttpRequest } from './ajax';
+import { sendXMLHttpRequest } from './utils';
 
-const loadedContent = [];
-
-const getContent = (url, view) => {
+const getContent = (url, view, onContentLoad) => {
 
   sendXMLHttpRequest(url, content => {
 
     view.innerHTML = content;
 
-    loadedContent[url] = true;
+    onContentLoad();
 
   });
 
@@ -24,9 +22,13 @@ export const setContent = (view, routeConfig) => {
 
   const url = encodeURIComponent(routeConfig.contentUrl);
 
-  if (!loadedContent[url]) {
+  const { HashRouter } = window;
 
-    getContent(url, view);
+  if (!HashRouter.addedResources.includes(url)) {
+
+    getContent(url, view, routeConfig.onContentLoad);
+
+    HashRouter.addedResources.push(url);
 
   }
 
