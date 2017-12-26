@@ -1,12 +1,13 @@
 import { activeHashClass, navPageSelector } from './literals';
+import { addResources } from './resources';
 import { setContent } from './content';
-import { setResources } from './resources';
+import { foreach } from './utils';
 
 const hideAllViews = () => {
 
   const views = document.querySelectorAll(`.${navPageSelector}`);
 
-  views.forEach(view => {
+  foreach(views, view => {
 
     view.classList.remove(activeHashClass);
 
@@ -28,7 +29,7 @@ export const changeView = (config, routeConfig) => {
   showView(view);
 
   setContent(view, routeConfig);
-  setResources(routeConfig);
+  addResources(routeConfig);
 
   window.scrollTo(0, 0);
 

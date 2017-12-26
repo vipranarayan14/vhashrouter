@@ -3,22 +3,32 @@ import { makeRegExp } from './make-regex';
 const defaultRouteConfig = {
   contentUrl: '',
   hash: '',
-  onLoadResources: () => { },
+  onContentLoad: () => { },
   onNavigate: () => { },
-  resources: [],
+  resources: {
+    scripts: [],
+    styles: []
+  },
   viewId: ''
 };
-
-const extendRouteConfig = routeConfig => Object.assign(
-  {},
-  defaultRouteConfig,
-  routeConfig
-);
 
 const applyRouteHash = routeConfig => Object.assign(
   {},
   routeConfig,
   { hash: makeRegExp(routeConfig.hash) }
+);
+
+const extendRouteConfig = routeConfig => Object.assign(
+  {},
+  defaultRouteConfig,
+  routeConfig,
+  {
+    resources: Object.assign(
+      {},
+      defaultRouteConfig.resources,
+      routeConfig.resources
+    )
+  }
 );
 
 export const parseConfig = config => Object.assign(

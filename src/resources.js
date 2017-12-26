@@ -1,43 +1,50 @@
-const addedResources = [];
+import { foreach } from './utils';
 
-const getResourceType = resource => resource.split('.').pop().toUpperCase();
+const addScriptTag = url => {
 
-const addResource = resource => {
+  const tag = document.createElement('SCRIPT');
 
-  const resourceType = getResourceType(resource);
+  tag.type = 'text/javascript';
+  tag.src = url;
 
-  let tag = '';
-
-  if (resourceType === 'JS') {
-
-    tag = `<script src='${resource}' async>`;
-
-  }
-  else if (resourceType === 'CSS') {
-
-    tag = `<link rel='stylesheet' href='${resource}'>`;
-
-  }
-
-  document.querySelector('head').insertAdjacentHTML('beforeend', tag);
-
-  addedResources[resource] = true;
+  document.body.appendChild(tag);
 
 };
 
-export const setResources = routeConfig => {
+const addStyleTag = url => {
 
-  if (!routeConfig.resources) {
+  const tag = document.createElement('LINK');
 
-    return;
+  tag.rel = 'stylesheet';
+  tag.href = url;
 
-  }
+  document.head.appendChild(tag);
 
-  routeConfig.resources.forEach(resource => {
+};
 
-    if (!addedResources[resource]) {
+export const addResources = routeConfig => {
 
-      addResource(resource);
+  const { HashRouter } = window;
+
+  foreach(routeConfig.resources.scripts, script => {
+
+    if (!HashRouter.addedResources.includes(script)) {
+
+      addScriptTag(script);
+
+      HashRouter.addedResources.push(script);
+
+    }
+
+  });
+
+  foreach(routeConfig.resources.styles, style => {
+
+    if (!HashRouter.addedResources.includes(style)) {
+
+      addStyleTag(style);
+
+      HashRouter.addedResources.push(style);
 
     }
 
