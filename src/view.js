@@ -1,7 +1,7 @@
 import { activeHashClass, navPageSelector } from './literals';
 import { addResources } from './resources';
-import { setContent } from './content';
 import { foreach } from './utils';
+import { setContent } from './content';
 
 const hideAllViews = () => {
 

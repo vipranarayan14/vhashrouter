@@ -90,6 +90,13 @@ var foreach = exports.foreach = function foreach(arr, process) {
   }
 };
 
+var makeRegExp = exports.makeRegExp = function makeRegExp(string) {
+
+  var expression = string.replace(/[-/\\^$*+?.()|[\]]/g, '\\$&').replace(/\$/g, '$$$$').replace(/{(.*?)}/g, '(.[^/]*)').replace(/^(.*)$/, '^$1$');
+
+  return new RegExp(expression);
+};
+
 var sendXMLHttpRequest = exports.sendXMLHttpRequest = function sendXMLHttpRequest(url, success) {
 
   var xhttp = new XMLHttpRequest();
@@ -262,9 +269,9 @@ var _literals = __webpack_require__(1);
 
 var _resources = __webpack_require__(6);
 
-var _content = __webpack_require__(7);
-
 var _utils = __webpack_require__(0);
+
+var _content = __webpack_require__(7);
 
 var hideAllViews = function hideAllViews() {
 
@@ -434,7 +441,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parseConfig = undefined;
 
-var _makeRegex = __webpack_require__(10);
+var _utils = __webpack_require__(0);
 
 var defaultRouteConfig = {
   contentUrl: '',
@@ -449,7 +456,7 @@ var defaultRouteConfig = {
 };
 
 var applyRouteHash = function applyRouteHash(routeConfig) {
-  return Object.assign({}, routeConfig, { hash: (0, _makeRegex.makeRegExp)(routeConfig.hash) });
+  return Object.assign({}, routeConfig, { hash: (0, _utils.makeRegExp)(routeConfig.hash) });
 };
 
 var extendRouteConfig = function extendRouteConfig(routeConfig) {
@@ -462,23 +469,6 @@ var parseConfig = exports.parseConfig = function parseConfig(config) {
   return Object.assign({}, config, {
     routes: config.routes.map(extendRouteConfig).map(applyRouteHash)
   });
-};
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var makeRegExp = exports.makeRegExp = function makeRegExp(string) {
-
-  var expression = string.replace(/[-/\\^$*+?.()|[\]]/g, '\\$&').replace(/\$/g, '$$$$').replace(/{(.*?)}/g, '(.[^/]*)').replace(/^(.*)$/, '^$1$');
-
-  return new RegExp(expression);
 };
 
 /***/ })
