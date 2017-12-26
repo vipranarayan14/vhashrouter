@@ -1,13 +1,15 @@
 {
   "name": "hash-router",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "A simple vanilla javaScript router based on change in hash part of the URL (with optional AJAX) for Single Page Applications.",
   "main": "dist/hash-router.js",
   "scripts": {
-    "precommit": "rimraf dist && yarn build && git add dist",
     "build": "webpack",
     "test": "eslint --ignore-path .gitignore ./src/*.js",
-    "start": "webpack-dev-server --config webpack.config.server"
+    "start": "webpack-dev-server --config webpack.config.server",
+    "preversion": "yarn run test",
+    "version": "rimraf dist && npm run build && git add -A dist",
+    "postversion": "git push && git push --tags"
   },
   "repository": "github:vipranarayan14/hash-router",
   "author": "Prasanna Venkatesh T S",
@@ -21,7 +23,6 @@
     "babel-loader": "7.1.2",
     "babel-preset-env": "1.6.1",
     "eslint": "4.12.1",
-    "husky": "0.14.3",
     "rimraf": "^2.6.2",
     "webpack": "3.10.0",
     "webpack-dev-server": "2.9.7"
