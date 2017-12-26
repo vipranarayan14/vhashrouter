@@ -73,19 +73,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var activeHashClass = exports.activeHashClass = 'hr-active-hash';
-var navPageSelector = exports.navPageSelector = 'hr-page';
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 var foreach = exports.foreach = function foreach(arr, process) {
   var done = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
 
@@ -122,6 +109,19 @@ var sendXMLHttpRequest = exports.sendXMLHttpRequest = function sendXMLHttpReques
 
   return;
 };
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var activeHashClass = exports.activeHashClass = 'hr-active-hash';
+var navPageSelector = exports.navPageSelector = 'hr-page';
 
 /***/ }),
 /* 2 */
@@ -258,17 +258,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.changeView = undefined;
 
-var _literals = __webpack_require__(0);
+var _literals = __webpack_require__(1);
 
 var _resources = __webpack_require__(6);
 
 var _content = __webpack_require__(7);
 
+var _utils = __webpack_require__(0);
+
 var hideAllViews = function hideAllViews() {
 
   var views = document.querySelectorAll('.' + _literals.navPageSelector);
 
-  views.forEach(function (view) {
+  (0, _utils.foreach)(views, function (view) {
 
     view.classList.remove(_literals.activeHashClass);
   });
@@ -304,7 +306,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.addResources = undefined;
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(0);
 
 var addScriptTag = function addScriptTag(url) {
 
@@ -364,7 +366,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setContent = undefined;
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(0);
 
 var getContent = function getContent(url, view, onContentLoad) {
 
@@ -409,7 +411,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initStyles = undefined;
 
-var _literals = __webpack_require__(0);
+var _literals = __webpack_require__(1);
 
 var initStyles = exports.initStyles = function initStyles() {
 
