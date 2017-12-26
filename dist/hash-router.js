@@ -1,1 +1,483 @@
-!function(e){function n(o){if(t[o])return t[o].exports;var r=t[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,n),r.l=!0,r.exports}var t={};n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:o})},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},n.p="",n(n.s=1)}([function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});n.activeHashClass="hr-active-hash",n.navPageSelector="hr-page"},function(e,n,t){"use strict";var o=t(2),r=t(8),a=t(9);window.HashRouter={init:function(e){var n=(0,a.parseConfig)(e);(0,r.initStyles)(),window.addEventListener("hashchange",(0,o.onHashChangeHandler)(n)),window.addEventListener("load",(0,o.onLoadHandler)(n))}}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.onHashChangeHandler=n.onLoadHandler=void 0;var o=t(3);n.onLoadHandler=function(e){return function(){var n=window.location.hash;n?(0,o.goToRoute)(e,n):(0,o.goToDefaultRoute)(e)}},n.onHashChangeHandler=function(e){return function(){(0,o.goToRoute)(e,window.location.hash)}}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.goToRoute=n.goToDefaultRoute=void 0;var o=t(4),r=function(e,n){return e.routes.find(function(e){return n.match(e.hash)})};n.goToDefaultRoute=function(e){e.defaultRoute&&(window.location.hash=e.defaultRoute)},n.goToRoute=function(e,n){if(!(n.indexOf("/")<0)){var t=r(e,n);t&&(event.preventDefault(),(0,o.changeView)(e,t))}}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.changeView=void 0;var o=t(0),r=t(5),a=t(7),u=function(){document.querySelectorAll("."+o.navPageSelector).forEach(function(e){e.classList.remove(o.activeHashClass)})},i=function(e){e.classList.add(o.activeHashClass)};n.changeView=function(e,n){var t=document.querySelector("#"+n.viewId);u(),i(t),(0,r.setContent)(t,n),(0,a.setResources)(n),window.scrollTo(0,0),n.onNavigate()}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.setContent=void 0;var o=t(6),r=[],a=function(e,n){(0,o.sendXMLHttpRequest)(e,function(t){n.innerHTML=t,r[e]=!0})};n.setContent=function(e,n){if(n.contentUrl){var t=encodeURIComponent(n.contentUrl);r[t]||a(t,e)}}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});n.sendXMLHttpRequest=function(e,n){var t=new XMLHttpRequest;t.onreadystatechange=function(){4===this.readyState&&200===this.status&&n(this.responseText)},t.open("GET",e,!0),t.send()}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var o=[],r=function(e){return e.split(".").pop().toUpperCase()},a=function(e){var n=r(e),t="";"JS"===n?t="<script src='"+e+"' async>":"CSS"===n&&(t="<link rel='stylesheet' href='"+e+"'>"),document.querySelector("head").insertAdjacentHTML("beforeend",t),o[e]=!0};n.setResources=function(e){e.resources&&(e.resources.forEach(function(e){o[e]||a(e)}),e.onLoadResources())}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.initStyles=void 0;var o=t(0);n.initStyles=function(){var e=document.createElement("style");e.innerHTML="\n    ."+o.navPageSelector+" {\n      display: none;\n    }\n\n    ."+o.navPageSelector+"."+o.activeHashClass+" {\n      display: block;\n    }\n  ",document.head.appendChild(e)}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.parseConfig=void 0;var o=t(10),r={contentUrl:"",hash:"",onLoadResources:function(){},onNavigate:function(){},resources:[],viewId:""},a=function(e){return Object.assign({},r,e)},u=function(e){return Object.assign({},e,{hash:(0,o.makeRegExp)(e.hash)})};n.parseConfig=function(e){return Object.assign({},e,{routes:e.routes.map(a).map(u)})}},function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});n.makeRegExp=function(e){var n=e.replace(/[-\/\\^$*+?.()|[\]]/g,"\\$&").replace(/\$/g,"$$$$").replace(/{(.*?)}/g,"(.[^/]*)");return new RegExp(n)}}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var activeHashClass = exports.activeHashClass = 'hr-active-hash';
+var navPageSelector = exports.navPageSelector = 'hr-page';
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var foreach = exports.foreach = function foreach(arr, process) {
+  var done = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
+
+
+  var length = arr.length;
+
+  for (var i = 0; i < length; i += 1) {
+
+    process(arr[i], i, arr);
+
+    if (i === length - 1) {
+
+      done();
+    }
+  }
+};
+
+var sendXMLHttpRequest = exports.sendXMLHttpRequest = function sendXMLHttpRequest(url, success) {
+
+  var xhttp = new XMLHttpRequest();
+  var READY = 4;
+  var OK = 200;
+
+  xhttp.onreadystatechange = function () {
+
+    if (this.readyState === READY && this.status === OK) {
+
+      success(this.responseText);
+    }
+  };
+
+  xhttp.open('GET', url, true);
+  xhttp.send();
+
+  return;
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _handlers = __webpack_require__(3);
+
+var _initStyles = __webpack_require__(8);
+
+var _parseConfig = __webpack_require__(9);
+
+window.HashRouter = {
+
+  addedResources: [],
+
+  init: function init(originalConfig) {
+
+    var config = (0, _parseConfig.parseConfig)(originalConfig);
+
+    (0, _initStyles.initStyles)();
+
+    window.addEventListener('hashchange', (0, _handlers.onHashChangeHandler)(config));
+    window.addEventListener('load', (0, _handlers.onLoadHandler)(config));
+  },
+
+
+  routeParams: []
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.onHashChangeHandler = exports.onLoadHandler = undefined;
+
+var _route = __webpack_require__(4);
+
+var onLoadHandler = exports.onLoadHandler = function onLoadHandler(config) {
+  return function () {
+    var hash = window.location.hash;
+
+
+    if (!hash) {
+
+      (0, _route.goToDefaultRoute)(config);
+    } else {
+
+      (0, _route.goToRoute)(config, hash);
+    }
+  };
+};
+
+var onHashChangeHandler = exports.onHashChangeHandler = function onHashChangeHandler(config) {
+  return function () {
+
+    (0, _route.goToRoute)(config, window.location.hash);
+  };
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.goToRoute = exports.goToDefaultRoute = undefined;
+
+var _view = __webpack_require__(5);
+
+var findRouteConfig = function findRouteConfig(config, toRoute) {
+  return config.routes.find(function (route) {
+    return toRoute.match(route.hash);
+  });
+};
+
+var setRouteParams = function setRouteParams(routeConfig, toRoute) {
+
+  window.HashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
+
+  routeConfig.onNavigate();
+};
+
+var goToDefaultRoute = exports.goToDefaultRoute = function goToDefaultRoute(config) {
+
+  if (config.defaultRoute) {
+
+    window.location.hash = config.defaultRoute;
+  }
+};
+
+var goToRoute = exports.goToRoute = function goToRoute(config, toRoute) {
+
+  if (toRoute.indexOf('/') < 0) {
+
+    return;
+  }
+
+  var routeConfig = findRouteConfig(config, toRoute);
+
+  if (!routeConfig) {
+
+    return;
+  }
+
+  event.preventDefault();
+
+  setRouteParams(routeConfig, toRoute);
+
+  (0, _view.changeView)(config, routeConfig);
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.changeView = undefined;
+
+var _literals = __webpack_require__(0);
+
+var _resources = __webpack_require__(6);
+
+var _content = __webpack_require__(7);
+
+var hideAllViews = function hideAllViews() {
+
+  var views = document.querySelectorAll('.' + _literals.navPageSelector);
+
+  views.forEach(function (view) {
+
+    view.classList.remove(_literals.activeHashClass);
+  });
+};
+
+var showView = function showView(view) {
+
+  view.classList.add(_literals.activeHashClass);
+};
+
+var changeView = exports.changeView = function changeView(config, routeConfig) {
+
+  var view = document.querySelector('#' + routeConfig.viewId);
+
+  hideAllViews();
+  showView(view);
+
+  (0, _content.setContent)(view, routeConfig);
+  (0, _resources.addResources)(routeConfig);
+
+  window.scrollTo(0, 0);
+};
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addResources = undefined;
+
+var _utils = __webpack_require__(1);
+
+var addScriptTag = function addScriptTag(url) {
+
+  var tag = document.createElement('SCRIPT');
+
+  tag.type = 'text/javascript';
+  tag.src = url;
+
+  document.body.appendChild(tag);
+};
+
+var addStyleTag = function addStyleTag(url) {
+
+  var tag = document.createElement('LINK');
+
+  tag.rel = 'stylesheet';
+  tag.href = url;
+
+  document.head.appendChild(tag);
+};
+
+var addResources = exports.addResources = function addResources(routeConfig) {
+  var _window = window,
+      HashRouter = _window.HashRouter;
+
+
+  (0, _utils.foreach)(routeConfig.resources.scripts, function (script) {
+
+    if (!HashRouter.addedResources.includes(script)) {
+
+      addScriptTag(script);
+
+      HashRouter.addedResources.push(script);
+    }
+  });
+
+  (0, _utils.foreach)(routeConfig.resources.styles, function (style) {
+
+    if (!HashRouter.addedResources.includes(style)) {
+
+      addStyleTag(style);
+
+      HashRouter.addedResources.push(style);
+    }
+  });
+};
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setContent = undefined;
+
+var _utils = __webpack_require__(1);
+
+var getContent = function getContent(url, view, onContentLoad) {
+
+  (0, _utils.sendXMLHttpRequest)(url, function (content) {
+
+    view.innerHTML = content;
+
+    onContentLoad();
+  });
+};
+
+var setContent = exports.setContent = function setContent(view, routeConfig) {
+
+  if (!routeConfig.contentUrl) {
+
+    return;
+  }
+
+  var url = encodeURIComponent(routeConfig.contentUrl);
+
+  var _window = window,
+      HashRouter = _window.HashRouter;
+
+
+  if (!HashRouter.addedResources.includes(url)) {
+
+    getContent(url, view, routeConfig.onContentLoad);
+
+    HashRouter.addedResources.push(url);
+  }
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initStyles = undefined;
+
+var _literals = __webpack_require__(0);
+
+var initStyles = exports.initStyles = function initStyles() {
+
+  var style = document.createElement('style');
+
+  style.innerHTML = '\n    .' + _literals.navPageSelector + ' {\n      display: none;\n    }\n\n    .' + _literals.navPageSelector + '.' + _literals.activeHashClass + ' {\n      display: block;\n    }\n  ';
+
+  document.head.appendChild(style);
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseConfig = undefined;
+
+var _makeRegex = __webpack_require__(10);
+
+var defaultRouteConfig = {
+  contentUrl: '',
+  hash: '',
+  onContentLoad: function onContentLoad() {},
+  onNavigate: function onNavigate() {},
+  resources: {
+    scripts: [],
+    styles: []
+  },
+  viewId: ''
+};
+
+var applyRouteHash = function applyRouteHash(routeConfig) {
+  return Object.assign({}, routeConfig, { hash: (0, _makeRegex.makeRegExp)(routeConfig.hash) });
+};
+
+var extendRouteConfig = function extendRouteConfig(routeConfig) {
+  return Object.assign({}, defaultRouteConfig, routeConfig, {
+    resources: Object.assign({}, defaultRouteConfig.resources, routeConfig.resources)
+  });
+};
+
+var parseConfig = exports.parseConfig = function parseConfig(config) {
+  return Object.assign({}, config, {
+    routes: config.routes.map(extendRouteConfig).map(applyRouteHash)
+  });
+};
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var makeRegExp = exports.makeRegExp = function makeRegExp(string) {
+
+  var expression = string.replace(/[-/\\^$*+?.()|[\]]/g, '\\$&').replace(/\$/g, '$$$$').replace(/{(.*?)}/g, '(.[^/]*)').replace(/^(.*)$/, '^$1$');
+
+  return new RegExp(expression);
+};
+
+/***/ })
+/******/ ]);
