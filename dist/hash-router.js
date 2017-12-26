@@ -90,7 +90,7 @@ var foreach = exports.foreach = function foreach(arr, process) {
   }
 };
 
-var makeRegExp = exports.makeRegExp = function makeRegExp(string) {
+var makeRegex = exports.makeRegex = function makeRegex(string) {
 
   var expression = string.replace(/[-/\\^$*+?.()|[\]]/g, '\\$&').replace(/\$/g, '$$$$').replace(/{(.*?)}/g, '(.[^/]*)').replace(/^(.*)$/, '^$1$');
 
@@ -456,7 +456,7 @@ var defaultRouteConfig = {
 };
 
 var applyRouteHash = function applyRouteHash(routeConfig) {
-  return Object.assign({}, routeConfig, { hash: (0, _utils.makeRegExp)(routeConfig.hash) });
+  return Object.assign({}, routeConfig, { hash: (0, _utils.makeRegex)(routeConfig.hash) });
 };
 
 var extendRouteConfig = function extendRouteConfig(routeConfig) {

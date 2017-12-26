@@ -1,4 +1,4 @@
-import { makeRegExp } from './make-regex';
+import { makeRegex } from './utils';
 
 const defaultRouteConfig = {
   contentUrl: '',
@@ -15,7 +15,7 @@ const defaultRouteConfig = {
 const applyRouteHash = routeConfig => Object.assign(
   {},
   routeConfig,
-  { hash: makeRegExp(routeConfig.hash) }
+  { hash: makeRegex(routeConfig.hash) }
 );
 
 const extendRouteConfig = routeConfig => Object.assign(
