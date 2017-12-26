@@ -1,4 +1,6 @@
-function runEachTime() {
+function runOnce() {
 
-  console.log('I must be shown everytime the page is visited (even without reloading)');  
+  console.log('I must be shown only once.');
 }
+
+runOnce();
