@@ -16,6 +16,17 @@ export const foreach = (arr, process, done = () => { }) => {
 
 };
 
+export const makeRegex = string => {
+
+  const expression = string.replace(/[-/\\^$*+?.()|[\]]/g, '\\$&')
+    .replace(/\$/g, '$$$$')
+    .replace(/{(.*?)}/g, '(.[^/]*)')
+    .replace(/^(.*)$/, '^$1$');
+
+  return new RegExp(expression);
+
+};
+
 export const sendXMLHttpRequest = (url, success) => {
 
   const xhttp = new XMLHttpRequest();
