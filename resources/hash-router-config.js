@@ -1,4 +1,4 @@
-HashRouter.init({
+const config = {
   defaultRoute: '#/Intro',
   routes: [
     {
@@ -6,38 +6,45 @@ HashRouter.init({
       viewId: 'Intro'
     },
     {
-      hash: '#/Usage',
-      viewId: 'Usage'
-    },
-    {
-      hash: '#/Other-features',
-      viewId: 'Other-features'
-    },
-    {
-      hash: '#/sample-external-page/{}',
-      viewId: 'External-page',
-      contentUrl: 'resources/external-pages/index.html',
-      resources: [
-        'resources/external-pages/script.js',
-        'resources/external-pages/script2.js',
-        'resources/external-pages/style.css'
-      ],
-      onNavigate (args) {
+      hash: '#/Introduction',
+      viewId: 'Intro',
+      onNavigate() {
 
-        console.log(args);
-        console.log('Page Navigated!');
+        console.log('Navigated to "Introduction".');
 
-      },
-      onLoadResources () {
-
-        console.log('Loaded Resources!');
-        runEachTime();
       }
     },
     {
-      hash: '#/gallery',
-      viewId: 'gallery',
-      contentUrl: 'external-pages/gallery.html',
+      hash: '#/Usage',
+      viewId: 'Usage',
+      onNavigate() {
+
+        console.log('Navigated to "Usage".');
+
+      },
+    },
+    {
+      hash: '#/Other-features/{}/',
+      viewId: 'Other-features',
+      onNavigate() {
+
+        console.log(HashRouter.routeParams);
+
+      }
+    },
+    {
+      hash: '#/sample-external-page',
+      viewId: 'External-page',
+      contentUrl: 'resources/external-pages/index.html',
+      resources: {
+        scripts: ['resources/external-pages/script.js'],
+        styles: ['resources/external-pages/style.css']
+      },
+      onContentLoad() {
+
+        document.querySelector('#Internationalized_URL')
+        .insertAdjacentHTML('afterend', '<br><b><i>This text was set dynamically :)</i><b>');
+      }
     },
     {
       hash: '#/License',
@@ -45,13 +52,14 @@ HashRouter.init({
       contentUrl: 'LICENSE'
     },
     {
-      hash: '#/Introduction/{}/{}/',
-      viewId: 'Intro',
-      onNavigate (args) {
-
-        console.log(args);
-
+      hash: '#/gallery/{}/{}/',
+      viewId: 'gallery',
+      contentUrl: 'resources/external-pages/gallery.html',
+      resources: {
+        scripts: ['resources/external-pages/script.js']        
       }
-    }
+    },
   ]
-});
+}
+
+HashRouter.init(config);
