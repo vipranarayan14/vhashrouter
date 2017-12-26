@@ -2,6 +2,14 @@ import { changeView } from './view';
 
 const findRouteConfig = (config, toRoute) => config.routes.find(route => toRoute.match(route.hash));
 
+const setRouteParams = (routeConfig, toRoute) => {
+
+  window.HashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
+
+  routeConfig.onNavigate();
+
+};
+
 export const goToDefaultRoute = config => {
 
   if (config.defaultRoute) {
@@ -29,6 +37,8 @@ export const goToRoute = (config, toRoute) => {
   }
 
   event.preventDefault();
+
+  setRouteParams(routeConfig, toRoute);
 
   changeView(config, routeConfig);
 
