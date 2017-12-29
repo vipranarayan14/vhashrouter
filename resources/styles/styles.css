@@ -34,12 +34,6 @@ main {
   font-family: sans-serif;
 }
 
-pre {
-  background-color: #CCC;
-  font-size: 14px;
-  padding: 10px;
-}
-
 a.active-hash {
   background: #61C069;
 }
@@ -47,20 +41,5 @@ a.active-hash {
 .hr-page {
   min-height: 100px;
   padding: 10px;
-}
-
-#Intro {
   background-color: #FDEC93;
-}
-
-#Usage {
-  background-color: #FFFEAA;
-}
-
-#Other-features {
-  background-color: #feb;
-}
-
-#External-page {
-  background-color: #FADF94;
 }
