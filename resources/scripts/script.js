@@ -1,18 +1,29 @@
-var mdPages = document.querySelectorAll('.md-page');
+const sendXMLHttpRequest = (url, success) => {
 
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
+  const xhttp = new XMLHttpRequest();
+  const READY = 4;
+  const OK = 200;
+
+  xhttp.onreadystatechange = function () {
+
+    if (this.readyState === READY && this.status === OK) {
+
+      success(this.responseText);
+
+    }
+
+  };
+
+  xhttp.open('GET', url, true);
+  xhttp.send();
+
+  return;
+
+};
+
+const usagePage = document.querySelector('#Usage');
+
+sendXMLHttpRequest('resources/hash-router-config.js', (content) => {
+
+  usagePage.innerHTML = '<pre>' + content + '</pre>';
 });
-
-
-for (var i = 0, len = mdPages.length; i < len; i++) {
-
-  mdPages[i].innerHTML = marked(mdPages[i].textContent.trim());
-}

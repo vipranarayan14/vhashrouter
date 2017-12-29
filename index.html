@@ -22,59 +22,20 @@
       <a href="#/License" class="nav-link">License</a>
     </nav>
     <main>
-      <div id="Intro" class="hr-page md-page">
-# Hash Router
-***
-A small independent library for navigating between pages by changing the hash part of the URL
-<br>
-You can also set the page content from external resources.
+      <div id="Intro" class="hr-page">
+        <h1>Hash Router</h1>
         <hr>
+        <p>A small independent library for navigating between pages by changing the hash part of the URL.</p>
+        <p>You can also set the page content from external resources.</p>
       </div>
-      <div id="Usage" class="hr-page md-page">
-```
-HashRouter.init({
-
-  defaultNavPageID: "Intro",
-
-  navPagesToGet: [
-
-    {
-      navPageID: "External-page",
-
-      urlToGet: "external-pages/index.html",
-
-      rsrcsToInject: {
-
-        scripts: ['external-pages/script.js', 'external-pages/script2.js'],
-
-        styles: ['external-pages/style.css']
-      },
-
-      onSuccess: function () {
-
-        sayHello();
-      },
-
-      onFailure: function () {
-
-        console.log('Unable to get navPage(s)');
-      }
-    },
-
-    {
-      navPageID: "gallery",
-
-      urlToGet: "external-pages/gallery.html",
-    }
-  ]
-});
-```
-      </div>
-      <div id="Other-features" class="hr-page md-page">
-- Create navigation using single HTML page
-- Set a default page to be loaded when no hash is in the URL.
-- Dynamically load external pages.
-- External pages and resources are loaded only once.
+      <div id="Usage" class="hr-page"></div>
+      <div id="Other-features" class="hr-page">
+        <ul>
+          <li>Create navigation using single HTML page.</li>
+          <li>Set a default page to be loaded when no hash is in the URL.</li>
+          <li>Dynamically load external pages.</li>
+          <li>External pages and resources are loaded only once.</li>
+        </ul>
       </div>
       <div id="External-page" class="hr-page">An external page will be loaded here.</div>
       <div id="gallery" class="hr-page"></div>
@@ -85,7 +46,6 @@ HashRouter.init({
   <script src="./dist/hash-router.js"></script>
   <script src="resources/hash-router-config.js"></script>
 
-  <script src="resources/scripts/marked.min.js"></script>
   <script src="resources/scripts/script.js"></script>
 </body>
 
