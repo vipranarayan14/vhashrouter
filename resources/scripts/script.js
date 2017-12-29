@@ -25,5 +25,8 @@ const usagePage = document.querySelector('#Usage');
 
 sendXMLHttpRequest('resources/hash-router-config.js', (content) => {
 
-  usagePage.innerHTML = '<pre>' + content + '</pre>';
+  
+  usagePage.innerHTML = '<pre><code class="javascript">' + content + '</code></pre>';
+
+  hljs.highlightBlock(usagePage.querySelector('pre code'));
 });
