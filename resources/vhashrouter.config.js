@@ -33,7 +33,7 @@ const config = {
       hash: '#/Other-features/{}/',
       onNavigate() {
 
-        console.log(HashRouter.routeParams);
+        console.log(vHashRouter.routeParams);
 
       },
       viewId: 'Other-features'
@@ -76,4 +76,4 @@ const config = {
 
 };
 
-window.HashRouter.init(config);
+window.vHashRouter.init(config);
