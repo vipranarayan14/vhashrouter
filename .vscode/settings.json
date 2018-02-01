@@ -1,5 +1,9 @@
 {
-  "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-  "files.eol": "\n",
+  "eslint.enable": true,
+  "window.zoomLevel": 0,
+  "files.autoSave": "afterDelay",
+  "editor.minimap.enabled": false,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
   "editor.tabSize": 2
 }
