@@ -22,13 +22,13 @@ export const setContent = (view, routeConfig) => {
 
   const url = encodeURIComponent(routeConfig.contentUrl);
 
-  const { HashRouter } = window;
+  const { vHashRouter } = window;
 
-  if (!HashRouter.addedResources.includes(url)) {
+  if (!vHashRouter.addedResources.includes(url)) {
 
     getContent(url, view, routeConfig.onContentLoad);
 
-    HashRouter.addedResources.push(url);
+    vHashRouter.addedResources.push(url);
 
   }
 

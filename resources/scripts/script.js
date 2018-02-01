@@ -23,7 +23,7 @@ const sendXMLHttpRequest = (url, success) => {
 
 const usagePage = document.querySelector('#Usage');
 
-sendXMLHttpRequest('resources/hash-router-config.js', content => {
+sendXMLHttpRequest('resources/vhashrouter.config.js', content => {
 
   usagePage.innerHTML = `<pre><code class="javascript">${ content }</code></pre>`;
 

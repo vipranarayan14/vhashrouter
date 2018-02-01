@@ -1,23 +1,22 @@
 const path = require('path');
+const filename = 'vhashrouter.js';
 
 module.exports = {
   entry: './src',
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'hash-router.js'
-  },
   module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['babel-preset-env']
-          }
+    loaders: [{
+      exclude: /node_modules/,
+      test: /\.js$/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['babel-preset-env']
         }
       }
-    ]
+    }]
+  },
+  output: {
+    filename,
+    path: path.join(__dirname, 'dist')
   }
 };

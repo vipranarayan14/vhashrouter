@@ -1,8 +1,8 @@
 {
-  "name": "hash-router",
+  "name": "vhashrouter",
   "version": "2.0.0",
   "description": "A simple vanilla javaScript router based on change in hash part of the URL (with optional AJAX) for Single Page Applications.",
-  "main": "dist/hash-router.js",
+  "main": "vhashrouter.js",
   "scripts": {
     "build": "webpack",
     "test": "eslint --ignore-path .gitignore ./src/*.js",
@@ -11,13 +11,13 @@
     "version": "rimraf dist && npm run build && git add -A dist",
     "postversion": "git push && git push --tags"
   },
-  "repository": "github:vipranarayan14/hash-router",
+  "repository": "github.com:vipranarayan14/vhashrouter.git",
   "author": "Prasanna Venkatesh T S",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vipranarayan14/hash-router/issues"
+    "url": "https://github.com/vipranarayan14/vhashrouter/issues"
   },
-  "homepage": "https://github.com/vipranarayan14/hash-router#readme",
+  "homepage": "https://vipranarayan14.github.io/vhashrouter/",
   "devDependencies": {
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",

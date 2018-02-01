@@ -4,7 +4,7 @@ const findRouteConfig = (config, toRoute) => config.routes.find(route => toRoute
 
 const setRouteParams = (routeConfig, toRoute) => {
 
-  window.HashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
+  window.vHashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
 
   routeConfig.onNavigate();
 

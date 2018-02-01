@@ -24,15 +24,15 @@ const addStyleTag = url => {
 
 export const addResources = routeConfig => {
 
-  const { HashRouter } = window;
+  const { vHashRouter } = window;
 
   foreach(routeConfig.resources.scripts, script => {
 
-    if (!HashRouter.addedResources.includes(script)) {
+    if (!vHashRouter.addedResources.includes(script)) {
 
       addScriptTag(script);
 
-      HashRouter.addedResources.push(script);
+      vHashRouter.addedResources.push(script);
 
     }
 
@@ -40,11 +40,11 @@ export const addResources = routeConfig => {
 
   foreach(routeConfig.resources.styles, style => {
 
-    if (!HashRouter.addedResources.includes(style)) {
+    if (!vHashRouter.addedResources.includes(style)) {
 
       addStyleTag(style);
 
-      HashRouter.addedResources.push(style);
+      vHashRouter.addedResources.push(style);
 
     }
 

@@ -2,7 +2,7 @@ import { onHashChangeHandler, onLoadHandler } from './handlers';
 import { initStyles } from './init-styles';
 import { parseConfig } from './parse-config';
 
-window.HashRouter = {
+window.vHashRouter = {
 
   addedResources: [],
 

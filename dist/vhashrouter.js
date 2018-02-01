@@ -143,7 +143,7 @@ var _initStyles = __webpack_require__(8);
 
 var _parseConfig = __webpack_require__(9);
 
-window.HashRouter = {
+window.vHashRouter = {
 
   addedResources: [],
 
@@ -219,7 +219,7 @@ var findRouteConfig = function findRouteConfig(config, toRoute) {
 
 var setRouteParams = function setRouteParams(routeConfig, toRoute) {
 
-  window.HashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
+  window.vHashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
 
   routeConfig.onNavigate();
 };
@@ -337,26 +337,26 @@ var addStyleTag = function addStyleTag(url) {
 
 var addResources = exports.addResources = function addResources(routeConfig) {
   var _window = window,
-      HashRouter = _window.HashRouter;
+      vHashRouter = _window.vHashRouter;
 
 
   (0, _utils.foreach)(routeConfig.resources.scripts, function (script) {
 
-    if (!HashRouter.addedResources.includes(script)) {
+    if (!vHashRouter.addedResources.includes(script)) {
 
       addScriptTag(script);
 
-      HashRouter.addedResources.push(script);
+      vHashRouter.addedResources.push(script);
     }
   });
 
   (0, _utils.foreach)(routeConfig.resources.styles, function (style) {
 
-    if (!HashRouter.addedResources.includes(style)) {
+    if (!vHashRouter.addedResources.includes(style)) {
 
       addStyleTag(style);
 
-      HashRouter.addedResources.push(style);
+      vHashRouter.addedResources.push(style);
     }
   });
 };
@@ -395,14 +395,14 @@ var setContent = exports.setContent = function setContent(view, routeConfig) {
   var url = encodeURIComponent(routeConfig.contentUrl);
 
   var _window = window,
-      HashRouter = _window.HashRouter;
+      vHashRouter = _window.vHashRouter;
 
 
-  if (!HashRouter.addedResources.includes(url)) {
+  if (!vHashRouter.addedResources.includes(url)) {
 
     getContent(url, view, routeConfig.onContentLoad);
 
-    HashRouter.addedResources.push(url);
+    vHashRouter.addedResources.push(url);
   }
 };
 
