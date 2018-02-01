@@ -18,5 +18,5 @@ module.exports = {
   output: {
     filename,
     path: path.join(__dirname, 'dist')
-  }
+  },
 };
