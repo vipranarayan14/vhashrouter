@@ -2,7 +2,7 @@
   "name": "vhashrouter",
   "version": "2.0.3",
   "description": "A simple vanilla javaScript router based on change in hash part of the URL (with optional AJAX) for Single Page Applications.",
-  "main": "dist/npm/vhashrouter.js",
+  "main": "dist/vhashrouter.npm.js",
   "scripts": {
     "build": "rimraf dist && webpack",
     "test": "eslint --ignore-path .gitignore ./src/*.js",
@@ -29,6 +29,6 @@
   },
   "dependencies": {},
   "files": [
-    "dist/npm/vhashrouter.js"
+    "dist/vhashrouter.npm.js"
   ]
 }
