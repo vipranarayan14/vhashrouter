@@ -267,7 +267,7 @@ var _utils = __webpack_require__(1);
 var _content = __webpack_require__(6);
 
 var hideAllViews = function hideAllViews(viewSelector, activeViewClass) {
-  console.log(viewSelector);
+
   var views = document.querySelectorAll('.' + viewSelector);
 
   (0, _utils.foreach)(views, function (view) {
