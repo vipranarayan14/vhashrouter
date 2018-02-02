@@ -1,11 +1,10 @@
-const path = require('path');
-const config = require('./webpack.config');
+const browserConfig = require('./webpack.config')[0];
 
-config.output.publicPath = 'dist/';
-config.devtool = 'source-map';
-config.devServer = {
+browserConfig.output.publicPath = 'dist/';
+browserConfig.devtool = 'source-map';
+browserConfig.devServer = {
   contentBase: '.',
   port: 9000
 };
 
-module.exports = config;
+module.exports = browserConfig;

@@ -1,10 +1,8 @@
 const path = require('path');
+const filename = 'vhashrouter';
 
-module.exports = {
-  entry: {
-    'browser/vhashrouter': './src/browser.js',
-    'npm/vhashrouter': './src/index.js'
-  },
+const baseConfig = {
+  entry: './src/index.js',
   module: {
     loaders: [{
       exclude: /node_modules/,
@@ -16,9 +14,33 @@ module.exports = {
         }
       }
     }]
-  },
-  output: {
-    filename: '[name].js',
-    path: path.join(__dirname, 'dist')
-  },
+  }
 };
+
+const browserConfig = Object.assign({}, baseConfig, {
+
+  output: {
+    filename: `${filename}.js`,
+    library: 'vHashRouter',
+    libraryExport: 'vHashRouter',
+    libraryTarget: 'window',
+    path: path.join(__dirname, 'dist')
+  }
+
+});
+
+const npmConfig = Object.assign({}, baseConfig, {
+
+  output: {
+    filename: `${filename}.npm.js`,
+    library: 'vHashRouter',
+    libraryTarget: 'umd',
+    path: path.join(__dirname, 'dist')
+  }
+
+});
+
+module.exports = [
+  browserConfig,
+  npmConfig
+];

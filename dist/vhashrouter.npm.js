@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["vHashRouter"] = factory();
+	else
+		root["vHashRouter"] = factory();
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -60,11 +70,47 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.vHashRouter = undefined;
+
+var _handlers = __webpack_require__(3);
+
+var _initStyles = __webpack_require__(8);
+
+var _parseConfig = __webpack_require__(9);
+
+var vHashRouter = exports.vHashRouter = {
+
+  addedResources: [],
+
+  init: function init(originalConfig) {
+
+    var config = (0, _parseConfig.parseConfig)(originalConfig);
+
+    (0, _initStyles.initStyles)();
+
+    window.addEventListener('hashchange', (0, _handlers.onHashChangeHandler)(config));
+    window.addEventListener('load', (0, _handlers.onLoadHandler)(config));
+  },
+
+
+  routeParams: []
+};
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -115,42 +161,6 @@ var sendXMLHttpRequest = exports.sendXMLHttpRequest = function sendXMLHttpReques
   xhttp.send();
 
   return;
-};
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.vHashRouter = undefined;
-
-var _handlers = __webpack_require__(3);
-
-var _initStyles = __webpack_require__(8);
-
-var _parseConfig = __webpack_require__(9);
-
-var vHashRouter = exports.vHashRouter = {
-
-  addedResources: [],
-
-  init: function init(originalConfig) {
-
-    var config = (0, _parseConfig.parseConfig)(originalConfig);
-
-    (0, _initStyles.initStyles)();
-
-    window.addEventListener('hashchange', (0, _handlers.onHashChangeHandler)(config));
-    window.addEventListener('load', (0, _handlers.onLoadHandler)(config));
-  },
-
-
-  routeParams: []
 };
 
 /***/ }),
@@ -216,7 +226,7 @@ exports.goToRoute = exports.goToDefaultRoute = undefined;
 
 var _view = __webpack_require__(5);
 
-var _index = __webpack_require__(1);
+var _index = __webpack_require__(0);
 
 var findRouteConfig = function findRouteConfig(config, toRoute) {
   return config.routes.find(function (route) {
@@ -276,7 +286,7 @@ var _literals = __webpack_require__(2);
 
 var _resources = __webpack_require__(6);
 
-var _utils = __webpack_require__(0);
+var _utils = __webpack_require__(1);
 
 var _content = __webpack_require__(7);
 
@@ -320,9 +330,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.addResources = undefined;
 
-var _utils = __webpack_require__(0);
+var _utils = __webpack_require__(1);
 
-var _index = __webpack_require__(1);
+var _index = __webpack_require__(0);
 
 var addScriptTag = function addScriptTag(url) {
 
@@ -379,7 +389,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setContent = undefined;
 
-var _utils = __webpack_require__(0);
+var _utils = __webpack_require__(1);
+
+var _index = __webpack_require__(0);
 
 var getContent = function getContent(url, view, onContentLoad) {
 
@@ -400,15 +412,11 @@ var setContent = exports.setContent = function setContent(view, routeConfig) {
 
   var url = encodeURIComponent(routeConfig.contentUrl);
 
-  var _window = window,
-      vHashRouter = _window.vHashRouter;
-
-
-  if (!vHashRouter.addedResources.includes(url)) {
+  if (!_index.vHashRouter.addedResources.includes(url)) {
 
     getContent(url, view, routeConfig.onContentLoad);
 
-    vHashRouter.addedResources.push(url);
+    _index.vHashRouter.addedResources.push(url);
   }
 };
 
@@ -447,7 +455,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parseConfig = undefined;
 
-var _utils = __webpack_require__(0);
+var _utils = __webpack_require__(1);
 
 var defaultRouteConfig = {
   contentUrl: '',
@@ -477,16 +485,6 @@ var parseConfig = exports.parseConfig = function parseConfig(config) {
   });
 };
 
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _index = __webpack_require__(1);
-
-window.vHashRouter = _index.vHashRouter;
-
 /***/ })
 /******/ ]);
+});
