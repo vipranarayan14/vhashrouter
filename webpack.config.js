@@ -1,8 +1,10 @@
 const path = require('path');
-const filename = 'vhashrouter.js';
 
 module.exports = {
-  entry: './src',
+  entry: {
+    'browser/vhashrouter': './src/browser.js',
+    'npm/vhashrouter': './src/index.js'
+  },
   module: {
     loaders: [{
       exclude: /node_modules/,
@@ -16,7 +18,7 @@ module.exports = {
     }]
   },
   output: {
-    filename,
+    filename: '[name].js',
     path: path.join(__dirname, 'dist')
   },
 };

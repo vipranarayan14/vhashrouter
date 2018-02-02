@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -127,15 +127,7 @@ var sendXMLHttpRequest = exports.sendXMLHttpRequest = function sendXMLHttpReques
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var activeHashClass = exports.activeHashClass = 'hr-active-hash';
-var navPageSelector = exports.navPageSelector = 'hr-page';
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+exports.vHashRouter = undefined;
 
 var _handlers = __webpack_require__(3);
 
@@ -143,7 +135,7 @@ var _initStyles = __webpack_require__(8);
 
 var _parseConfig = __webpack_require__(9);
 
-window.vHashRouter = {
+var vHashRouter = exports.vHashRouter = {
 
   addedResources: [],
 
@@ -160,6 +152,19 @@ window.vHashRouter = {
 
   routeParams: []
 };
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var activeHashClass = exports.activeHashClass = 'hr-active-hash';
+var navPageSelector = exports.navPageSelector = 'hr-page';
 
 /***/ }),
 /* 3 */
@@ -211,6 +216,8 @@ exports.goToRoute = exports.goToDefaultRoute = undefined;
 
 var _view = __webpack_require__(5);
 
+var _index = __webpack_require__(1);
+
 var findRouteConfig = function findRouteConfig(config, toRoute) {
   return config.routes.find(function (route) {
     return toRoute.match(route.hash);
@@ -219,7 +226,7 @@ var findRouteConfig = function findRouteConfig(config, toRoute) {
 
 var setRouteParams = function setRouteParams(routeConfig, toRoute) {
 
-  window.vHashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
+  _index.vHashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
 
   routeConfig.onNavigate();
 };
@@ -265,7 +272,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.changeView = undefined;
 
-var _literals = __webpack_require__(1);
+var _literals = __webpack_require__(2);
 
 var _resources = __webpack_require__(6);
 
@@ -315,6 +322,8 @@ exports.addResources = undefined;
 
 var _utils = __webpack_require__(0);
 
+var _index = __webpack_require__(1);
+
 var addScriptTag = function addScriptTag(url) {
 
   var tag = document.createElement('SCRIPT');
@@ -336,27 +345,24 @@ var addStyleTag = function addStyleTag(url) {
 };
 
 var addResources = exports.addResources = function addResources(routeConfig) {
-  var _window = window,
-      vHashRouter = _window.vHashRouter;
-
 
   (0, _utils.foreach)(routeConfig.resources.scripts, function (script) {
 
-    if (!vHashRouter.addedResources.includes(script)) {
+    if (!_index.vHashRouter.addedResources.includes(script)) {
 
       addScriptTag(script);
 
-      vHashRouter.addedResources.push(script);
+      _index.vHashRouter.addedResources.push(script);
     }
   });
 
   (0, _utils.foreach)(routeConfig.resources.styles, function (style) {
 
-    if (!vHashRouter.addedResources.includes(style)) {
+    if (!_index.vHashRouter.addedResources.includes(style)) {
 
       addStyleTag(style);
 
-      vHashRouter.addedResources.push(style);
+      _index.vHashRouter.addedResources.push(style);
     }
   });
 };
@@ -418,7 +424,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initStyles = undefined;
 
-var _literals = __webpack_require__(1);
+var _literals = __webpack_require__(2);
 
 var initStyles = exports.initStyles = function initStyles() {
 
@@ -470,6 +476,17 @@ var parseConfig = exports.parseConfig = function parseConfig(config) {
     routes: config.routes.map(extendRouteConfig).map(applyRouteHash)
   });
 };
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _index = __webpack_require__(1);
+
+window.vHashRouter = _index.vHashRouter;
 
 /***/ })
 /******/ ]);
