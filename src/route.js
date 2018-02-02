@@ -1,10 +1,11 @@
 import { changeView } from './view';
+import { vHashRouter } from './index';
 
 const findRouteConfig = (config, toRoute) => config.routes.find(route => toRoute.match(route.hash));
 
 const setRouteParams = (routeConfig, toRoute) => {
 
-  window.vHashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
+  vHashRouter.routeParams = toRoute.match(routeConfig.hash, toRoute);
 
   routeConfig.onNavigate();
 

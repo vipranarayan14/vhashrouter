@@ -1,4 +1,5 @@
 import { foreach } from './utils';
+import { vHashRouter } from './index';
 
 const addScriptTag = url => {
 
@@ -23,8 +24,6 @@ const addStyleTag = url => {
 };
 
 export const addResources = routeConfig => {
-
-  const { vHashRouter } = window;
 
   foreach(routeConfig.resources.scripts, script => {
 
