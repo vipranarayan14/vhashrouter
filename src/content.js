@@ -1,4 +1,5 @@
 import { sendXMLHttpRequest } from './utils';
+import { vHashRouter } from './index';
 
 const getContent = (url, view, onContentLoad) => {
 
@@ -21,8 +22,6 @@ export const setContent = (view, routeConfig) => {
   }
 
   const url = encodeURIComponent(routeConfig.contentUrl);
-
-  const { vHashRouter } = window;
 
   if (!vHashRouter.addedResources.includes(url)) {
 
