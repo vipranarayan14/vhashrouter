@@ -176,7 +176,7 @@ exports.onHashChangeHandler = exports.onLoadHandler = undefined;
 var _route = __webpack_require__(4);
 
 var onLoadHandler = exports.onLoadHandler = function onLoadHandler(config) {
-  return function () {
+  return function (event) {
     var hash = window.location.hash;
 
 
@@ -185,15 +185,15 @@ var onLoadHandler = exports.onLoadHandler = function onLoadHandler(config) {
       (0, _route.goToDefaultRoute)(config);
     } else {
 
-      (0, _route.goToRoute)(config, hash);
+      (0, _route.goToRoute)(config, hash, event);
     }
   };
 };
 
 var onHashChangeHandler = exports.onHashChangeHandler = function onHashChangeHandler(config) {
-  return function () {
+  return function (event) {
 
-    (0, _route.goToRoute)(config, window.location.hash);
+    (0, _route.goToRoute)(config, window.location.hash, event);
   };
 };
 
@@ -232,7 +232,7 @@ var goToDefaultRoute = exports.goToDefaultRoute = function goToDefaultRoute(conf
   }
 };
 
-var goToRoute = exports.goToRoute = function goToRoute(config, toRoute) {
+var goToRoute = exports.goToRoute = function goToRoute(config, toRoute, event) {
 
   if (toRoute.indexOf('/') < 0) {
 
