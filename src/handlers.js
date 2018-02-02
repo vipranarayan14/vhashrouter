@@ -1,6 +1,6 @@
 import { goToDefaultRoute, goToRoute } from './route';
 
-export const onLoadHandler = config => () => {
+export const onLoadHandler = config => event => {
 
   const { hash } = window.location;
 
@@ -8,17 +8,16 @@ export const onLoadHandler = config => () => {
 
     goToDefaultRoute(config);
 
-  }
-  else {
+  } else {
 
-    goToRoute(config, hash);
+    goToRoute(config, hash, event);
 
   }
 
 };
 
-export const onHashChangeHandler = config => () => {
+export const onHashChangeHandler = config => event => {
 
-  goToRoute(config, window.location.hash);
+  goToRoute(config, window.location.hash, event);
 
 };

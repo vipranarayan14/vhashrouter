@@ -20,7 +20,7 @@ export const goToDefaultRoute = config => {
 
 };
 
-export const goToRoute = (config, toRoute) => {
+export const goToRoute = (config, toRoute, event) => {
 
   if (toRoute.indexOf('/') < 0) {
 
