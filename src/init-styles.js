@@ -1,15 +1,13 @@
-import {activeHashClass, navPageSelector} from './literals';
-
-export const initStyles = () => {
+export const initStyles = config => {
 
   const style = document.createElement('style');
 
   style.innerHTML = `
-    .${navPageSelector} {
+    .${config.viewSelector} {
       display: none;
     }
 
-    .${navPageSelector}.${activeHashClass} {
+    .${config.viewSelector}.${config.activeViewClass} {
       display: block;
     }
   `;

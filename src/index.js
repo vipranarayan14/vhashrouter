@@ -10,7 +10,7 @@ export const vHashRouter = {
 
     const config = parseConfig(originalConfig);
 
-    initStyles();
+    initStyles(config);
 
     window.addEventListener('hashchange', onHashChangeHandler(config));
     window.addEventListener('load', onLoadHandler(config));

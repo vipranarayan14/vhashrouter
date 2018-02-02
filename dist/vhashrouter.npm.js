@@ -85,11 +85,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.vHashRouter = undefined;
 
-var _handlers = __webpack_require__(3);
+var _handlers = __webpack_require__(2);
 
-var _initStyles = __webpack_require__(8);
+var _initStyles = __webpack_require__(7);
 
-var _parseConfig = __webpack_require__(9);
+var _parseConfig = __webpack_require__(8);
 
 var vHashRouter = exports.vHashRouter = {
 
@@ -99,7 +99,7 @@ var vHashRouter = exports.vHashRouter = {
 
     var config = (0, _parseConfig.parseConfig)(originalConfig);
 
-    (0, _initStyles.initStyles)();
+    (0, _initStyles.initStyles)(config);
 
     window.addEventListener('hashchange', (0, _handlers.onHashChangeHandler)(config));
     window.addEventListener('load', (0, _handlers.onLoadHandler)(config));
@@ -173,22 +173,9 @@ var sendXMLHttpRequest = exports.sendXMLHttpRequest = function sendXMLHttpReques
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var activeHashClass = exports.activeHashClass = 'hr-active-hash';
-var navPageSelector = exports.navPageSelector = 'hr-page';
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 exports.onHashChangeHandler = exports.onLoadHandler = undefined;
 
-var _route = __webpack_require__(4);
+var _route = __webpack_require__(3);
 
 var onLoadHandler = exports.onLoadHandler = function onLoadHandler(config) {
   return function (event) {
@@ -213,7 +200,7 @@ var onHashChangeHandler = exports.onHashChangeHandler = function onHashChangeHan
 };
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -224,7 +211,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.goToRoute = exports.goToDefaultRoute = undefined;
 
-var _view = __webpack_require__(5);
+var _view = __webpack_require__(4);
 
 var _index = __webpack_require__(0);
 
@@ -271,7 +258,7 @@ var goToRoute = exports.goToRoute = function goToRoute(config, toRoute, event) {
 };
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -282,44 +269,44 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.changeView = undefined;
 
-var _literals = __webpack_require__(2);
-
-var _resources = __webpack_require__(6);
+var _resources = __webpack_require__(5);
 
 var _utils = __webpack_require__(1);
 
-var _content = __webpack_require__(7);
+var _content = __webpack_require__(6);
 
-var hideAllViews = function hideAllViews() {
-
-  var views = document.querySelectorAll('.' + _literals.navPageSelector);
+var hideAllViews = function hideAllViews(viewSelector, activeViewClass) {
+  console.log(viewSelector);
+  var views = document.querySelectorAll('.' + viewSelector);
 
   (0, _utils.foreach)(views, function (view) {
 
-    view.classList.remove(_literals.activeHashClass);
+    view.classList.remove(activeViewClass);
   });
 };
 
-var showView = function showView(view) {
+var showView = function showView(view, activeViewClass) {
 
-  view.classList.add(_literals.activeHashClass);
+  view.classList.add(activeViewClass);
 };
 
 var changeView = exports.changeView = function changeView(config, routeConfig) {
 
   var view = document.querySelector('#' + routeConfig.viewId);
 
-  hideAllViews();
-  showView(view);
+  hideAllViews(config.viewSelector, config.activeViewClass);
+
+  showView(view, config.activeViewClass);
 
   (0, _content.setContent)(view, routeConfig);
+
   (0, _resources.addResources)(routeConfig);
 
   window.scrollTo(0, 0);
 };
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -378,7 +365,7 @@ var addResources = exports.addResources = function addResources(routeConfig) {
 };
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -421,7 +408,7 @@ var setContent = exports.setContent = function setContent(view, routeConfig) {
 };
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -430,21 +417,17 @@ var setContent = exports.setContent = function setContent(view, routeConfig) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initStyles = undefined;
-
-var _literals = __webpack_require__(2);
-
-var initStyles = exports.initStyles = function initStyles() {
+var initStyles = exports.initStyles = function initStyles(config) {
 
   var style = document.createElement('style');
 
-  style.innerHTML = '\n    .' + _literals.navPageSelector + ' {\n      display: none;\n    }\n\n    .' + _literals.navPageSelector + '.' + _literals.activeHashClass + ' {\n      display: block;\n    }\n  ';
+  style.innerHTML = '\n    .' + config.viewSelector + ' {\n      display: none;\n    }\n\n    .' + config.viewSelector + '.' + config.activeViewClass + ' {\n      display: block;\n    }\n  ';
 
   document.head.appendChild(style);
 };
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -457,30 +440,56 @@ exports.parseConfig = undefined;
 
 var _utils = __webpack_require__(1);
 
+var defaultConfig = {
+
+  activeViewClass: 'hr-active-view',
+
+  defaultRoute: '',
+
+  viewSelector: 'hr-view'
+
+};
+
 var defaultRouteConfig = {
+
   contentUrl: '',
+
   hash: '',
+
   onContentLoad: function onContentLoad() {},
+
   onNavigate: function onNavigate() {},
+
   resources: {
+
     scripts: [],
+
     styles: []
+
   },
+
   viewId: ''
+
 };
 
 var applyRouteHash = function applyRouteHash(routeConfig) {
-  return Object.assign({}, routeConfig, { hash: (0, _utils.makeRegex)(routeConfig.hash) });
+  return Object.assign({}, routeConfig, {
+
+    hash: (0, _utils.makeRegex)(routeConfig.hash)
+
+  });
 };
 
 var extendRouteConfig = function extendRouteConfig(routeConfig) {
   return Object.assign({}, defaultRouteConfig, routeConfig, {
+
     resources: Object.assign({}, defaultRouteConfig.resources, routeConfig.resources)
+
   });
 };
 
 var parseConfig = exports.parseConfig = function parseConfig(config) {
-  return Object.assign({}, config, {
+  return Object.assign({}, defaultConfig, config, {
     routes: config.routes.map(extendRouteConfig).map(applyRouteHash)
   });
 };

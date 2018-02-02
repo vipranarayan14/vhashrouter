@@ -1,23 +1,22 @@
-import { activeHashClass, navPageSelector } from './literals';
 import { addResources } from './resources';
 import { foreach } from './utils';
 import { setContent } from './content';
 
-const hideAllViews = () => {
+const hideAllViews = (viewSelector, activeViewClass) => {
 
-  const views = document.querySelectorAll(`.${navPageSelector}`);
+  const views = document.querySelectorAll(`.${viewSelector}`);
 
   foreach(views, view => {
 
-    view.classList.remove(activeHashClass);
+    view.classList.remove(activeViewClass);
 
   });
 
 };
 
-const showView = view => {
+const showView = (view, activeViewClass) => {
 
-  view.classList.add(activeHashClass);
+  view.classList.add(activeViewClass);
 
 };
 
@@ -25,10 +24,12 @@ export const changeView = (config, routeConfig) => {
 
   const view = document.querySelector(`#${routeConfig.viewId}`);
 
-  hideAllViews();
-  showView(view);
+  hideAllViews(config.viewSelector, config.activeViewClass);
+
+  showView(view, config.activeViewClass);
 
   setContent(view, routeConfig);
+
   addResources(routeConfig);
 
   window.scrollTo(0, 0);
