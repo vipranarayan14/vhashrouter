@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const config = {
 
   defaultRoute: '#/Intro',
@@ -33,7 +35,7 @@ const config = {
       hash: '#/Other-features/{}/',
       onNavigate() {
 
-        console.log(vHashRouter.routeParams);
+        console.log(window.vHashRouter.routeParams);
 
       },
       viewId: 'Other-features'
