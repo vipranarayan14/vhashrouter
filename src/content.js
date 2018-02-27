@@ -21,7 +21,7 @@ export const setContent = (view, routeConfig) => {
 
   }
 
-  const url = encodeURIComponent(routeConfig.contentUrl);
+  const url = encodeURI(routeConfig.contentUrl);
 
   if (!vHashRouter.addedResources.includes(url)) {
 

@@ -397,7 +397,7 @@ var setContent = exports.setContent = function setContent(view, routeConfig) {
     return;
   }
 
-  var url = encodeURIComponent(routeConfig.contentUrl);
+  var url = encodeURI(routeConfig.contentUrl);
 
   if (!_index.vHashRouter.addedResources.includes(url)) {
 
